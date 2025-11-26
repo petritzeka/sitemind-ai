@@ -1,0 +1,4 @@
+Method E:
+Cables in insulated walls.
+Requires derating.
+Check thermal insulation depth.

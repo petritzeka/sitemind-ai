@@ -1,0 +1,7 @@
+1.0mm² → Lighting
+1.5mm² → Lighting or small loads
+2.5mm² → Socket circuits
+4.0mm² → Cookers, showers (older installs)
+6.0mm² → Cookers, showers
+10mm² → Submains, high load appliances
+16mm² → Main bonding, meter tails

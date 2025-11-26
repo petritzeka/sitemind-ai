@@ -1,0 +1,4 @@
+Thermal insulation rules:
+- Cable surrounded in insulation = method 100.
+- Cable touching insulation = reduce capacity.
+- Keep cables outside insulation where possible.

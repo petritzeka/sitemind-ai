@@ -1,0 +1,1 @@
+Reference methods describe how cables are installed and affect their current carrying capacity. Based on BS 7671 Appendix 4.

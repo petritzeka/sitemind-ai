@@ -1,0 +1,4 @@
+Additional rules:
+- All circuits require 30mA RCD.
+- Supplementary bonding may be required in older installs.
+- Metalwork must be connected to CPC.

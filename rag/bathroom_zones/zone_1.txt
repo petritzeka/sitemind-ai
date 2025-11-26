@@ -1,0 +1,5 @@
+Zone 1:
+- Above bath/shower up to 2.25m.
+- Minimum IPX4.
+- IPX5 required if water jets present.
+- Allowed: showers, pull cords, fans rated for Zone 1.

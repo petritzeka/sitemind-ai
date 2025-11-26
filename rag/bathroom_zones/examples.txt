@@ -1,0 +1,4 @@
+Examples:
+1. Downlight directly above shower → Zone 1 → Must be IPX4.
+2. Mirror light 40cm from bath → Zone 2 → IP44 required.
+3. Extractor fan above shower → Zone 1 → SELV fan or IPX5.

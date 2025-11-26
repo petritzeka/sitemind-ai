@@ -1,0 +1,10 @@
+Steps to size a cable:
+1. Determine design current (Ib).
+2. Select protective device (In).
+3. Choose cable where Iz ≥ In.
+4. Apply correction factors (Ca, Cg, Ci).
+5. Check volt drop.
+6. Check Zs.
+7. Confirm installation method.
+
+This process ensures compliance with BS 7671.

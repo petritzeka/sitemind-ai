@@ -1,0 +1,1 @@
+Bathroom zones define the safety requirements for electrical equipment around baths and showers. Based on BS 7671 Section 701.

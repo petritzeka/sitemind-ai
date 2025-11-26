@@ -1,0 +1,10 @@
+Typical domestic cable carrying capacities (approx.):
+1.0mm² T&E → 10A
+1.5mm² T&E → 16A
+2.5mm² T&E → 20–27A
+4.0mm² T&E → 32–36A
+6.0mm² T&E → 40A
+10mm² → 65A
+16mm² → 85A
+
+Final values depend on installation method and correction factors.

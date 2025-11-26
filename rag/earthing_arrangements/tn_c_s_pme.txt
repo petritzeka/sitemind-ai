@@ -1,0 +1,6 @@
+TN-C-S (PME) System:
+- Neutral and earth combined in supply network.
+- Multiple earth connections on distributor network.
+- Typical Ze: ~0.35Ω
+- Most common modern supply type.
+- Special bonding requirements due to PME.

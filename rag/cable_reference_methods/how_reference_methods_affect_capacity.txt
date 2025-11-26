@@ -1,0 +1,7 @@
+Impact of reference methods:
+- Method C → Highest capacity.
+- Method B → Reduced.
+- Method E → More reduced.
+- Method 100 → Lowest.
+
+Always check Iz ≥ In after applying reference method.

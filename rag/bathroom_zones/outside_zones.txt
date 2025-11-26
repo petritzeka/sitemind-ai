@@ -1,0 +1,4 @@
+Outside zones:
+- No minimum IP rating by BS 7671.
+- IP44+ recommended for humidity.
+- Shaver sockets and switches allowed.

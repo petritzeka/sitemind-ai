@@ -1,0 +1,4 @@
+Method 100:
+Cable fully surrounded by thermal insulation.
+Significant derating required.
+Often limits circuit rating drastically.

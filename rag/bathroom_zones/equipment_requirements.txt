@@ -1,0 +1,5 @@
+Equipment requirements:
+- Luminaires: IPX4 in zones 1 & 2.
+- Fans: must match zone rating.
+- Sockets: only shaver units permitted.
+- Showers: manufacturer compliant for Zone 1.

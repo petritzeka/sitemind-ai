@@ -1,0 +1,6 @@
+Thermal insulation can significantly reduce cable performance.
+
+Rules:
+- Cable fully surrounded by insulation = Use Reference Method 100
+- Cable touching insulation but not surrounded = Reduce rating
+- Avoid running cables in insulation if possible

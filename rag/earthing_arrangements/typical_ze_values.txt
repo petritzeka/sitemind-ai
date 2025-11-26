@@ -1,0 +1,6 @@
+Typical Ze values:
+TN-S → ~0.2Ω  
+TN-C-S (PME) → ~0.35Ω  
+TT → 10–200Ω+
+
+Always verify on-site.

@@ -1,0 +1,4 @@
+Zone 2:
+- 0.6m around bath/shower.
+- Minimum IPX4.
+- Lights, fans, and shaver units allowed if rated correctly.

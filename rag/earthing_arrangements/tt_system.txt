@@ -1,0 +1,6 @@
+TT Earthing System:
+- Earth via an earth rod at the property.
+- Very high Ze.
+- RCD required for ADS (automatic disconnection).
+- Typical Ze: 10–200Ω.
+- Common in rural locations.

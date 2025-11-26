@@ -1,0 +1,6 @@
+Common issues:
+- Broken TN-S sheath causing high Ze.
+- PME incorrectly labelled.
+- TT system without RCD protection.
+- Missing or undersized bonding.
+- Shared neutrals causing high Zs readings.

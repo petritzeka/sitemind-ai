@@ -1,0 +1,5 @@
+TN-S Earthing System:
+- Separate neutral and earth from the transformer.
+- Earth provided by metallic sheath of supply cable.
+- Typical Ze: ~0.2Ω
+- Common in older properties or where supply uses PILC cable.

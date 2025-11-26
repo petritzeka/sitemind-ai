@@ -1,0 +1,8 @@
+Reference Methods (BS 7671 Appendix 4):
+C – Clipped direct → highest current rating
+B – In trunking or conduit on a wall
+100 – In thermal insulation (worst)
+A – In free air
+
+Method C gives the best performance.
+Method 100 significantly derates cable capacity.

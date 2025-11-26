@@ -1,0 +1,11 @@
+Volt drop (mV/A/m):
+1.0mm² → 44
+1.5mm² → 29
+2.5mm² → 18
+4.0mm² → 11
+6.0mm² → 7.3
+10mm² → 4.4
+
+Maximum allowable VD:
+- Lighting circuits: 3%
+- Other circuits: 5%

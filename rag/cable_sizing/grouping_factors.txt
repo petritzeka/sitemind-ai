@@ -1,0 +1,8 @@
+Grouping factors apply when multiple circuits are installed together.
+
+Examples:
+2 circuits = 0.8  
+3–6 circuits = 0.7  
+More than 6 = 0.65
+
+Reduce cable capacity accordingly.

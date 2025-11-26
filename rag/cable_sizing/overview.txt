@@ -1,0 +1,1 @@
+This folder contains guidance for selecting cable sizes: current capacity, volt drop, correction factors, and reference methods. Based on BS 7671 Appendix 4.

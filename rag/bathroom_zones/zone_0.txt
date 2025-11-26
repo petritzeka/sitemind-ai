@@ -1,0 +1,4 @@
+Zone 0:
+- Inside the bath/shower tray.
+- Only SELV up to 12V allowed.
+- Equipment must be IPX7 minimum.

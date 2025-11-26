@@ -1,0 +1,4 @@
+How to identify:
+- TN-S → Cable sheath, separate neutral and earth visible.
+- TN-C-S → Neutral conductor marked as PEN; earth connected from supplier block.
+- TT → Earth rod present; no earth provided by DNO.

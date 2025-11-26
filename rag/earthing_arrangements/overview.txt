@@ -1,0 +1,1 @@
+Earthing arrangements define how the installation is connected to earth. The three common UK systems are TN-S, TN-C-S (PME), and TT.
