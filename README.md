@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/logo.png" width="140" />
+</p>
+
 # SiteMind AI
 
 SiteMind AI is a WhatsApp-based AI assistant designed for UK electricians and electrical installation students. It delivers instant support for EAL Level 2/3 learning, domestic installation guidance, distribution board analysis, and automated documentation — all directly through WhatsApp.
