@@ -1,0 +1,10 @@
+RCD and RCBO Testing
+
+Tests include:
+• ½ × IΔn – should NOT trip
+• 1 × IΔn – must trip within permitted time
+• 5 × IΔn – high-current fast trip
+• Auto-test (where applicable)
+• Functional test using the “T” button
+
+Record trip times and compare with BS 7671 requirements.

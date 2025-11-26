@@ -1,0 +1,11 @@
+Earth Fault Loop Impedance (Zs & Ze)
+
+Ze (external earth fault loop impedance):
+• Measured at origin with main switch OFF
+• Helps determine maximum Zs values
+
+Zs (earth fault loop impedance at a point):
+• Zs = Ze + (R1 + R2)
+• Must be below the maximum permitted value in BS 7671 for the protective device.
+
+Low Zs ensures fast disconnection of supply in a fault.

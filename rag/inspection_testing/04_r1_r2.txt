@@ -1,0 +1,18 @@
+Continuity of Protective Conductors (R1+R2)
+
+Purpose:
+To confirm the CPC is continuous from the consumer unit to every accessory.
+
+Method:
+
+Isolate the supply.
+
+Link Line (R1) and CPC (R2) at the distribution board.
+
+Test at each point on the circuit.
+
+The highest reading is the “worst-case” Zs reference point.
+
+Notes:
+• On lighting circuits, check at switch drops carefully.
+• If using long-lead method, measure R2 alone.

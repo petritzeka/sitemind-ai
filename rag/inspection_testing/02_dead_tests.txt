@@ -1,0 +1,12 @@
+Dead Tests (Before Energising)
+
+Dead tests include:
+
+• Continuity of protective conductors (CPC, bonding)
+• Continuity of ring final circuit conductors
+• Insulation resistance (L–N, L–E, N–E)
+• Polarity (dead checks)
+• Resistance of protective bonding conductors
+• Verify SELV/PELV separation if applicable
+
+Dead testing ensures the installation is electrically sound before introducing live voltage.

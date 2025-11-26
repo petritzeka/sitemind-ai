@@ -1,0 +1,32 @@
+Live Tests – Sequence and Purpose (BS 7671)
+
+1. Polarity (live)
+• Confirm line is truly line.
+• Single phase: 230 V L–N, 230 V L–E, 0 V N–E.
+• Three phase: check L1/L2/L3 phase sequence.
+
+2. Ze – External Earth Fault Loop Impedance
+• Test with supply on but installation isolated.
+• Typical values:
+  – TN-C-S: ~0.35 Ω
+  – TN-S: ~0.8 Ω
+  – TT: up to 21 Ω
+
+3. Prospective Fault Current (PFC)
+• Highest of PSCC/PEFC.
+• Use meter auto-mode or calculate using Ohm’s Law (I = V / Z).
+
+4. Zs – Earth Fault Loop Impedance of Circuit
+• Zs = Ze + (R1 + R2)
+• Must be below max allowed for protective device.
+• 0.4 s disconnection for ≤32A final circuits.
+
+5. RCD Tests
+• ½ × IΔn – should NOT trip.
+• 1 × IΔn – trip within 300 ms.
+• 5 × IΔn – rapid trip (40 ms typical).
+• Test button must operate.
+
+6. Functional Testing
+• Check switches, isolators, equipment function.
+• Check correct labelling and identification.

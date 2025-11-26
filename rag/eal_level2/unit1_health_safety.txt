@@ -1,0 +1,37 @@
+Purpose of H&S:
+• Prevent injury, electric shock, fire, and accidents.
+• Follow legislation: HASAWA 1974, EAWR 1989.
+
+Risk assessments:
+• Identify hazards.
+• Who may be harmed.
+• Evaluate risk.
+• Control measures.
+• Review regularly.
+
+Common hazards:
+• Working live.
+• Working at height.
+• Trip hazards.
+• Damaged tools.
+• Poor lighting or ventilation.
+
+PPE:
+• Safety boots, gloves, goggles, arc-rated clothing.
+
+Safe isolation procedure:
+1. Identify circuit.
+2. Prove tester on known live source.
+3. Isolate supply using correct device.
+4. Lock off + warning tag.
+5. Prove dead.
+6. Re-prove tester.
+
+Fire safety:
+• Extinguishers: CO₂ (electrical), powder, water (non-electrical).
+• Call emergency services.
+• Evacuate safely.
+
+Manual handling:
+• Straight back, bend knees.
+• Use assistance for heavy loads.

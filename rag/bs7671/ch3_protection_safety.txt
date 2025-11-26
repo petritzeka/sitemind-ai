@@ -1,0 +1,23 @@
+BS 7671 Chapter 3 – Protection for Safety
+
+Protection against electric shock:
+• Basic protection: insulation, enclosures, barriers.
+• Fault protection: automatic disconnection of supply (ADS).
+• ADS requires correct Zs and disconnection times.
+
+Additional protection:
+• 30 mA RCDs required in many circuits (domestic, socket outlets, bathrooms).
+
+Protection against overcurrent:
+• Overload and short-circuit protection via fuses, MCBs, RCBOs.
+
+Protection against earth faults:
+• Provided by correct earthing and bonding.
+
+Disconnection times:
+• Final circuits ≤32A: 0.4s.
+• Distribution circuits: 5s.
+
+Other protections:
+• Protection against thermal effects.
+• Protection against overvoltages.

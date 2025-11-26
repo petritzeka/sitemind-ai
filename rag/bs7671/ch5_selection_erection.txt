@@ -1,0 +1,21 @@
+BS 7671 Chapter 5 – Selection and Erection of Equipment
+
+Key factors:
+• Choose equipment suitable for voltage, current, and environmental conditions.
+• Ensure correct IP ratings for location (IP44 bathrooms, etc.).
+• Cables must be correctly supported and protected (no premature collapse).
+• Follow safe zones for cable routes in walls.
+
+Circuit design:
+• Ib ≤ In ≤ Iz (load ≤ device ≤ cable rating).
+• Check volt drop limits: 3% lighting, 5% other circuits.
+• Consider fault currents and Zs values.
+
+Equipment selection:
+• Correct MCB types (B, C, D).
+• Correct RCD types (AC, A, F, B).
+• Correct CSA for earthing and bonding conductors.
+
+Special requirements:
+• Segregation of circuits.
+• Avoid mechanical damage.

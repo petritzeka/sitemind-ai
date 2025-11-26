@@ -1,0 +1,35 @@
+Installation methods:
+• T&E in walls or ceilings.
+• Conduit (metal/plastic).
+• Trunking, basket, tray.
+• SWA cable: armour = CPC if compliant.
+
+Termination methods:
+• Strip, prepare, tighten to torque.
+• Ferrules for stranded conductors.
+• Glanding SWA (banjo, nuts, earth tail).
+
+Reference methods:
+• 100 = in a wall.
+• 101 = surface mounted.
+• 103 = clipped direct.
+• Determines cable current rating.
+
+Containment:
+• Tray: for large bundles.
+• Basket: lightweight cable support.
+• Trunking: routes many circuits, requires fire-stopping.
+
+Communication on site:
+• Job sheets.
+• RAMS.
+• Drawings (schematics/layouts).
+
+Testing procedures:
+• Continuity, IR, polarity.
+• Zs, Ze, PFC.
+• RCD tests.
+
+Documentation:
+• EIC, EICR, Minor Works.
+• Notes and variations.

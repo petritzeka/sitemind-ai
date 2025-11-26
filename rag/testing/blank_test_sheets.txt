@@ -1,0 +1,31 @@
+Blank Test Sheets – Key Sections
+
+1. Circuit Details Page
+Includes:
+• Circuit number
+• Circuit description
+• Cable type and size
+• Reference method
+• Number of live conductors
+• Protective device (type, rating)
+• Max permitted Zs
+• RCD details if present
+
+2. Schedule of Test Results Page
+Includes:
+• Ring continuity: r1, rn, r2
+• R1+R2 or R2
+• Insulation resistance (L–L, L–E, N–E)
+• Polarity (confirmed)
+• Zs measured value
+• RCD test times
+• AFDD if applicable
+• Remarks box for notes
+
+3. Instrument Details
+• Model + serial number
+• Calibration status
+
+4. Signature and Date
+• Tester name and signature
+• Date of testing

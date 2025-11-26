@@ -1,0 +1,22 @@
+Dead Tests – Full Sequence (BS 7671 / OSG)
+
+1. Continuity of Protective Conductors (R1+R2)
+• Confirms CPC is continuous.
+• Use long lead or end-to-end method.
+• For lighting: R1+R2 is measured at the switch/light.
+
+2. Continuity of Ring Final Circuits
+• Measure r1, rn, r2 end-to-end.
+• Cross-connect r1–rn and measure at sockets (figure-of-8).
+• Cross-connect r1–r2 and test again.
+• Check results are balanced.
+
+3. Insulation Resistance (IR)
+• Test between L–N, L–E, N–E.
+• Use 500 V DC for new installs.
+• Minimum reading: 1 MΩ (higher expected).
+• Sensitive equipment may be disconnected.
+
+4. Polarity (dead)
+• Confirm correct connections: L to switches, N to neutral bar, CPC to earth bar.
+• Ring polarity also confirmed during continuity tests.

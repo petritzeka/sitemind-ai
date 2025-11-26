@@ -1,0 +1,43 @@
+Test Result Fields – What Each Value Means
+
+r1:
+• Line conductor resistance on ring final circuits.
+
+rn:
+• Neutral conductor resistance on ring final circuits.
+
+r2:
+• CPC resistance on ring final circuits.
+
+R1+R2:
+• Line + CPC resistance to verify continuity.
+• Used to calculate Zs: Zs = Ze + (R1+R2).
+
+Insulation Resistance:
+• Measured in MΩ between conductors.
+• Minimum 1 MΩ for each test.
+
+Polarity:
+• Confirms correct connections.
+
+Zs:
+• Loop impedance of completed circuit.
+• Must be below max Zs for protective device.
+
+RCD Tests:
+• 1/2 × IΔn (no trip)
+• 1 × IΔn (trip <300 ms)
+• 5 × IΔn (fast trip)
+
+PFC:
+• Prospective short-circuit current.
+• Highest of PSCC/PEFC.
+
+PEFC:
+• Prospective earth fault current.
+
+PSC:
+• Prospective short-circuit current between L–N.
+
+Notes/Remarks:
+• Space for non-compliances, access issues, or limitations.

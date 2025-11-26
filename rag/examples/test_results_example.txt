@@ -1,0 +1,31 @@
+Example – Generic Schedule of Test Results (Simplified)
+
+Ring final (Circuit 1)
+• r1 = 0.25 Ω
+• rn = 0.25 Ω
+• r2 = 0.41 Ω
+• R1+R2 = 0.78 Ω
+• IR (L-N) = >299 MΩ
+• IR (L-E) = >299 MΩ
+• Polarity: OK
+• Zs = 0.62 Ω
+• RCD test: pass at ×½, ×1, ×5
+
+Lighting circuit
+• R1+R2 = 1.20 Ω
+• IR = >299 MΩ all tests
+• Polarity: OK
+• Zs = 0.98 Ω
+
+Cooker
+• R1+R2 = 0.45 Ω
+• IR = >299 MΩ
+• Zs = 0.60 Ω
+
+Shower
+• R1+R2 = 0.29 Ω
+• IR = >299 MΩ
+• Zs = 0.42 Ω
+
+Notes:
+• Values above are realistic and help the AI understand typical ranges.

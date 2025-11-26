@@ -1,0 +1,13 @@
+Inspection & Testing Overview
+
+Inspection and testing prove that an electrical installation is safe and compliant with BS 7671.
+It is split into two stages:
+
+Dead tests – performed with the supply isolated.
+
+Live tests – performed after energising (when safe to do so).
+
+Dead tests confirm basic safety and continuity.
+Live tests confirm disconnection times, Zs, RCD operation, and polarity under real conditions.
+
+Electricians follow a specific sequence of tests to avoid damage to equipment and ensure safety.

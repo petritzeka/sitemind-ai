@@ -1,0 +1,21 @@
+Preparation:
+• Read drawings and specs.
+• Select tools and materials.
+• Complete RAMS.
+
+Installation skills:
+• Cable pulling, bending, dressing.
+• Conduit/trunking/basket installation.
+• Tray and SWA glanding.
+• Support spacing to prevent premature collapse.
+• Maintain segregation of LV/ELV.
+
+Connections and terminations:
+• Torque settings.
+• Correct tightening sequence.
+• Ferrules for stranded conductors.
+
+Pre-commissioning:
+• Visual checks.
+• Ensure correct identification and labelling.
+• Verify CPC continuity before energising.

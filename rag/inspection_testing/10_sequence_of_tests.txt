@@ -1,0 +1,22 @@
+Correct Sequence of Tests (BS 7671 Guidance)
+
+Dead Tests:
+
+Continuity of CPC
+
+Continuity of ring final circuits
+
+Insulation resistance
+
+Polarity (dead)
+
+Verification of bonding and SELV/PELV separation
+
+Live Tests:
+6. External fault loop impedance (Ze)
+7. Prospective fault current (PSC/PEFC)
+8. Zs on each circuit
+9. RCD/RCBO testing
+10. Functional checks
+
+Following the sequence prevents damage to equipment and ensures safety.

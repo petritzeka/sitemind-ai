@@ -1,0 +1,15 @@
+BS 7671 Chapter 4 – Protection Against Thermal Effects
+
+Purpose:
+• Prevent risk of fire, burns, or overheating in installations.
+
+Key requirements:
+• Cables must be protected from external heat sources.
+• Equipment must not exceed temperature limits.
+• Items installed near combustible materials require special consideration.
+• Arcing and sparking must be prevented.
+• Luminaires must be suitable for their environment.
+
+Common examples:
+• Downlights require correct fire-rated fittings.
+• Cables in insulation must use correction factor Ci.

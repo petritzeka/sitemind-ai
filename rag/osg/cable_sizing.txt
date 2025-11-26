@@ -1,0 +1,22 @@
+Cable Sizing – OSG Essentials
+
+Design rules:
+• Ib ≤ In ≤ Iz
+• Iz is cable current-carrying capacity from tables.
+• Apply correction factors: Ca (ambient), Ci (insulation), Cg (grouping), Cf (device type).
+
+Volt drop:
+• Typical limits: 3% lighting, 5% other finals.
+• Volt drop = (mV/A/m × Ib × length) ÷ 1000.
+
+Common T&E sizes:
+• 1.0 mm² lighting (6A)
+• 1.5 mm² lighting (6A/10A)
+• 2.5 mm² sockets (ring or 20A radial)
+• 4.0 mm² 32A radial
+• 6 mm² cooker/shower
+• 10 mm²/16 mm² for high-load appliances or long runs.
+
+CPC sizing:
+• Usually built into T&E.
+• For singles/SWA: use adiabatic or tables.

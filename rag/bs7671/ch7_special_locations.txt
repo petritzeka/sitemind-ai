@@ -1,0 +1,26 @@
+BS 7671 Chapter 7 – Special Installations and Locations
+
+Covers special areas with higher risk:
+• Bathrooms (Section 701)
+• Swimming pools (702)
+• Hot tubs and spas
+• Agricultural locations (705)
+• Marinas and boatyards (709)
+• Caravans (721)
+• EV charging installations (722)
+• Solar PV systems (712)
+
+Bathrooms:
+• Zones: 0, 1, 2.
+• RCD 30 mA required.
+• IPX4 or higher depending on zone.
+
+EV charge points:
+• RCD Types A or B depending on charger.
+• PME considerations (open PEN protection).
+
+PV systems:
+• DC isolation, correct cable selection, earthing arrangements.
+
+Key principle:
+• Additional measures to reduce risk in special environments.

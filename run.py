@@ -1,6 +1,6 @@
-from app import create_app
+from app import create_app, PORT
 
 app = create_app()
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=int(app.config.get("PORT", 5050)), debug=True)
+    app.run(host="0.0.0.0", port=PORT, debug=True)

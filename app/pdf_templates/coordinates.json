@@ -1,0 +1,8 @@
+{
+  "db_reference": { "page": 1, "x": 65, "y": 730 },
+
+  "circuit_1_no": { "page": 1, "x": 35, "y": 690 },
+  "circuit_1_description": { "page": 1, "x": 65, "y": 690 },
+  "circuit_1_rating": { "page": 1, "x": 125, "y": 690 },
+  "circuit_1_zs": { "page": 1, "x": 155, "y": 690 }
+}

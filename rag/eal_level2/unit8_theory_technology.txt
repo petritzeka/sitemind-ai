@@ -1,0 +1,37 @@
+Supply systems:
+• TN-S: separate earth/neutral.
+• TN-C-S: PME.
+• TT: earth rod, RCD is main protection.
+
+Circuit types:
+• Ring final circuits (2.5mm² + 32A).
+• Radials (2.5mm² 20A, or 4mm² 32A).
+• Lighting circuits (1.0/1.5mm² + 6A).
+• Cooker circuits (6mm² + 32-45A).
+
+Protective devices:
+• MCB types: B (domestic), C (commercial), D (industrial).
+• Fuses: BS1361, BS3036, BS88.
+
+RCD rules:
+• 30 mA for sockets, domestic circuits, bathrooms, outdoors.
+
+Cable selection:
+• Ib ≤ In ≤ Iz.
+• Apply correction factors: Ca, Ci, Cg.
+• Volt drop limits: 3% lighting, 5% other.
+
+Earthing & bonding:
+• Main bonding (10mm² copper typical).
+• Supplementary bonding only where required.
+
+Enclosures:
+• IP ratings: IP4X DBs, IPX4 bathrooms.
+
+BS7671 design steps:
+1. Determine demand.
+2. Select protective device.
+3. Select cable size.
+4. Check volt drop.
+5. Check Zs.
+6. Documentation.

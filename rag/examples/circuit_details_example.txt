@@ -1,0 +1,36 @@
+Example – Circuit Details Page (Typical Domestic Board)
+
+DB reference: DB1
+Location: Hall cupboard
+Supply: TN-C-S, Ze = 0.35 Ω
+Main switch: 100 A DP isolator
+
+Circuit 1 – Ring final sockets
+• Cable: 2.5 mm² T&E
+• CPC: 1.5 mm²
+• Reference method: 100 (in wall)
+• Protective device: B32 MCB
+• Max Zs permitted: 1.37 Ω
+• RCD: 30 mA, Type A
+
+Circuit 2 – Upstairs lights
+• Cable: 1.0 mm² T&E
+• CPC: 1.0 mm²
+• Protective device: B6 MCB
+• Max Zs permitted: 7.67 Ω
+• No RCD (if pre-18th), 30 mA if new
+
+Circuit 3 – Cooker
+• Cable: 6.0 mm² T&E
+• Protective device: B32 MCB
+• Max Zs permitted: 1.37 Ω
+• RCD: 30 mA
+
+Circuit 4 – Shower
+• Cable: 10 mm² T&E
+• Protective device: B40 MCB
+• Max Zs permitted: 1.16 Ω
+• RCD: 30 mA
+
+Notes:
+• Each circuit includes: cable size, reference method, device type/rating, max Zs, RCD data.

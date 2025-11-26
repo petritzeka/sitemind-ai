@@ -1,0 +1,18 @@
+Ring Final Circuit Continuity
+
+You must test:
+• r1 (line)
+• rn (neutral)
+• r2 (CPC)
+
+Steps:
+
+Measure r1, rn, r2 end-to-end.
+
+Cross-connect r1–rn and test at each socket → readings should be consistent.
+
+Cross-connect r1–r2 → this gives (R1+R2) at each socket.
+
+Check for balanced readings; big variations suggest loose terminals.
+
+A ring must be continuous; if readings are wrong, it may be broken or not a ring.

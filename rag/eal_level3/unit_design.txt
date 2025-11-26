@@ -1,0 +1,23 @@
+Design sequence:
+1. Determine supply characteristics (TN-S, TN-C-S, TT).
+2. Assess maximum demand + diversity.
+3. Select protective devices (BS EN 60898, BS 88).
+4. Size cables using Ib ≤ In ≤ Iz.
+5. Check correction factors: Ca, Ci, Cg.
+6. Check volt drop: 3% lighting, 5% power.
+7. Check fault protection: Zs ≤ max Zs.
+8. Check thermal withstand (adiabatic equation).
+9. Select containment and routing.
+10. Produce drawings and documentation.
+
+Volt drop calculation:
+VD = (mV/A/m × Ib × length) ÷ 1000
+
+Adiabatic equation:
+S ≥ √(I²t / k²)
+
+Main considerations:
+• Special locations.
+• RCD requirements.
+• Coordination of protective devices.
+• Shock protection (ADS, SELV, PELV).

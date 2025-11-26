@@ -1,0 +1,30 @@
+Electrical Installation Certificate – Structure Overview
+
+Sections:
+
+1. Details of Client and Installation
+• Names, address, type of installation (new/addition/alteration).
+
+2. Description and Extent of Installation
+• Clear summary of what the work covers.
+
+3. Supply Characteristics and Earthing Arrangements
+• TN-S, TN-C-S, TT.
+• Supply voltage, frequency, PFC, Ze.
+• Main protective device rating.
+
+4. Particulars of Installation Referred to in the Certificate
+• Maximum demand.
+• Earthing conductor CSA.
+• Bonding conductor sizes.
+• Main switch type and rating.
+
+5. Schedule of Inspections
+• Visual checks: intake, ADS, segregation, identification, IP rating.
+
+6. Schedule of Test Results
+• R1+R2 or R2, IR, polarity, Zs, RCD tests.
+
+7. Signatures
+• Design, construction, inspection & testing.
+• Dates and names must be present.

@@ -1,0 +1,28 @@
+AC theory:
+• RMS values.
+• Peak vs RMS.
+• Frequency: 50 Hz.
+• Impedance (Z) = √(R² + X²)
+• Reactance: XL = 2πfL, XC = 1/(2πfC)
+
+Power factor:
+• PF = cos φ
+• True power P = V × I × PF
+
+Three-phase systems:
+• Line voltage = 400 V.
+• Phase voltage = 230 V.
+• Balanced loads reduce neutral current.
+
+Transformers:
+• Vs/Vp = Ns/Np.
+• Used in distribution and electronics.
+
+Motors:
+• AC induction motors.
+• Starting currents higher than running.
+• Star/delta starting.
+
+Electronics:
+• Diodes, rectifiers, capacitors, inductors.
+• Smoothing and filtering.

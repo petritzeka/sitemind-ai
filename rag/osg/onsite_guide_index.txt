@@ -1,0 +1,117 @@
+ON-SITE GUIDE INDEX (RAG REFERENCE FILE)
+
+SECTION 1 — INTRODUCTION
+1.1 Scope
+1.2 Building Regulations
+1.3 Basic information required
+1.4 Intended departures from BS 7671
+
+SECTION 2 — ELECTRICAL SUPPLY
+2.1 General layout of equipment
+2.2 Function of components
+2.3 Separation of gas pipework
+2.4 Portable generators
+
+SECTION 3 — PROTECTION
+3.1 Types of protective device
+3.2 Protection against overload current
+3.3 Protection against short-circuit and earth fault current
+3.4 Protection against electric shock
+3.5 Automatic disconnection of supply (ADS)
+3.6 Residual current devices (RCDs)
+3.7 Surge protection devices (SPDs)
+3.8 Arc fault detection devices (AFDDs)
+
+SECTION 4 — EARTHING AND BONDING
+4.1 Protective earthing
+4.2 Legal requirements
+4.3 Main protective bonding
+4.4 Earthing conductor and bonding conductor sizes
+4.5 Main bonding of plastic services
+4.6 Supplementary bonding
+4.7 Additional supplementary bonding
+4.8 Supplementary bonding of plastic pipe installations
+4.9 Earth electrode
+4.10 Types of earth electrode
+4.11 Typical earthing arrangements
+
+SECTION 5 — ISOLATION AND SWITCHING
+5.1 Isolation
+5.2 Switching off for mechanical maintenance
+5.3 Emergency switching off
+5.4 Functional switching
+5.5 Firefighter’s switch
+
+SECTION 6 — LABELLING
+6.1 Retention of dangerous electrical charge
+6.2 Remote operator risk
+6.3 Nominal voltage warning
+6.4 Earthing and bonding labels
+6.5 Purpose of switchgear labels
+6.6 Identification of protective devices
+6.7 Identification of isolators
+6.8 Multiple isolations required
+6.9 Periodic inspection and testing labels
+6.10 Diagrams
+6.11 RCD labels
+6.12 Warning: non-standard colours
+6.13 Warning: alternative supplies
+6.14 Warning: high protective conductor current
+6.15 Photovoltaic (PV) system labels
+6.16 Instruction labels
+
+SECTION 7 — FINAL CIRCUITS
+7.1 Final circuits overview
+7.2 Standard final circuits (Ring and radial)
+7.3 Installation considerations
+7.4 Proximity to other services
+7.5 Earthing for high CPC current
+7.6 Electrical supplies to furniture
+7.7 Trunking installations
+7.8 Additions and alterations
+7.9 Non-standard cables
+7.10 EMC Directive and compatibility
+7.11 Wiring in escape routes
+
+SECTION 8 — LOCATIONS WITH A BATH OR SHOWER
+8.1 Summary of requirements
+8.2 Shower cubicle in other rooms
+8.3 Underfloor heating systems
+
+SECTION 9 — INSPECTION AND TESTING
+9.1 Inspection
+9.2 Testing
+9.3 Test instruments
+
+SECTION 10 — INITIAL VERIFICATION
+10.1 Safety and equipment
+10.2 Sequence of tests
+10.3 Test procedures
+
+SECTION 11 — RCD OPERATION
+11.1 General test procedure
+11.2 Testing older RCD/RCCBs
+11.3 Testing BS EN 61008 / 61009 RCDs and RCBOs
+11.4 RCD-protected sockets and FCUs
+11.5 Additional protection
+11.6 Integral test device
+11.7 Multipole RCDs
+
+SECTION 12 — PROSUMERS’ ELECTRICAL INSTALLATIONS
+12.1 Prosumer installations
+12.2 Types of prosumer systems
+12.3 Operating modes
+
+APPENDICES
+Appendix A – Maximum demand and diversity
+Appendix B – Maximum permissible measured earth fault loop impedance
+Appendix C – Cable types and external influences
+Appendix D – Cable support methods
+Appendix E – Cable capacities in conduit and trunking
+Appendix F – Current-carrying capacities and voltage drop
+Appendix G – Certification and reporting
+Appendix H – Standard circuit arrangements
+Appendix I – Resistance of copper and aluminium conductors
+Appendix J – Selection of devices for isolation and switching
+Appendix K – Identification of conductors
+Appendix L – IP codes

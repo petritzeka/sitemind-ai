@@ -1,0 +1,17 @@
+BS 7671 Chapter 2 – Assessment of General Characteristics
+
+Characteristics to determine before design:
+• Supply type: TN-S, TN-C-S, TT.
+• Nominal voltage: 230V single-phase, 400V three-phase.
+• Prospective fault current (PFC/PSCC).
+• External earth fault loop impedance (Ze).
+
+Other factors:
+• Maximum demand and diversity.
+• External influences: water, heat, mechanical, corrosive.
+• Compatibility with equipment.
+• Overvoltages and undervoltages.
+
+Purpose:
+• Ensure the installation can meet demand safely.
+• Ensure equipment is protected from fault conditions.

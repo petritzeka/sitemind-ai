@@ -1,0 +1,23 @@
+Solar PV (basic):
+• Converts sunlight to DC power.
+• Inverter converts DC to AC.
+• DC isolators required.
+• AC isolator near the consumer unit.
+• Earthing arrangements vary (TT/TN).
+• Overcurrent protection needed for AC side.
+
+PV safety:
+• DC cannot be switched off by main switch.
+• Use correct DC-rated isolators.
+
+PAT testing:
+• Visual inspection.
+• Earth continuity test.
+• Insulation resistance test.
+• Substitute leakage test (if needed).
+• Equipment must be labelled after test.
+
+Common faults:
+• Damaged flexes.
+• Incorrect fuse rating.
+• Exposed conductive parts.

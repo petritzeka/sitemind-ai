@@ -1,0 +1,11 @@
+AM2 Testing Requirements
+
+During AM2, candidates must complete:
+• Full dead tests on a distribution board they wired
+• Full live tests once energised
+• Complete test sheets correctly
+• Fault finding on pre-set faults
+• Demonstrate safe isolation
+• Verify compliance with BS 7671
+
+Accuracy, neatness, and correct test sheet completion are essential for passing.

@@ -1,0 +1,22 @@
+BS 7671 Chapter 6 – Inspection and Testing
+
+Inspection:
+• Visual checks before testing.
+• Verify: identification, damage, IP rating, connections, bonding, accessibility.
+
+Test sequence (dead → live):
+Dead tests:
+1. Continuity of protective conductors (R1+R2, R2)
+2. Continuity of ring finals (r1, rn, r2)
+3. Insulation resistance
+4. Polarity (dead)
+
+Live tests:
+5. Ze (external impedance)
+6. Zs (loop impedance)
+7. Prospective fault current (PSCC/PEFC)
+8. RCD tests (½ ×, 1 ×, 5 × IΔn)
+9. Functional testing
+
+Certification:
+• EIC, EICR, Minor Works.

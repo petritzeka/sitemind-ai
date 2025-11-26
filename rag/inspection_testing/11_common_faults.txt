@@ -1,0 +1,12 @@
+Common Faults Found During Inspection & Testing
+
+• Broken CPC
+• Reversed polarity
+• Ring final not completing the loop
+• Low insulation values
+• High Zs due to loose terminations
+• Mixed conductors (e.g., borrowed neutrals)
+• Incorrect protective device ratings
+• No bonding or undersized bonding
+
+Students should recognise these during practical assessments.

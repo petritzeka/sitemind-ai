@@ -1,0 +1,24 @@
+Purpose:
+• Provide safety guidance.
+• Prevent electric shock, fire, and thermal damage.
+
+Key principles:
+• ADS (automatic disconnection).
+• RCD use.
+• Correct cable selection.
+• Protection against faults and overload.
+• Special locations require extra measures.
+
+Important chapters:
+• Chapter 1: Scope.
+• Chapter 2: Characteristics.
+• Chapter 3: Safety protections.
+• Chapter 4: Thermal effects.
+• Chapter 5: Selection & erection.
+• Chapter 6: Inspection & testing.
+• Chapter 7: Special locations.
+
+Key tables:
+• Zs tables.
+• Correction factors.
+• Cable current-carrying capacities.

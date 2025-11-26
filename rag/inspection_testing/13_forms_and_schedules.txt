@@ -1,0 +1,19 @@
+Forms, Certificates, and Schedules
+
+Electricians must know how to complete:
+
+• Electrical Installation Certificate (EIC)
+• Minor Works Certificate
+• Electrical Installation Condition Report (EICR)
+• Schedule of Test Results
+• Schedule of Inspections
+
+Common values recorded:
+• R1+R2
+• Ring continuity r1/rn/r2
+• IR values
+• Ze and Zs
+• RCD times
+• PSC/PEFC
+
+Correct, legible documentation is part of BS 7671 compliance.

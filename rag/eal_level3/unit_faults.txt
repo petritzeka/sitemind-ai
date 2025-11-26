@@ -1,0 +1,22 @@
+Fault types:
+• Open circuit.
+• Short circuit.
+• Earth fault.
+• High resistance connections.
+• Mis-polarity.
+
+Systematic approach:
+1. Gather information (talk to client, check drawings).
+2. Safe isolation.
+3. Visual inspection.
+4. Test using multimeter, continuity, IR, Zs.
+5. Identify fault area.
+6. Confirm diagnosis.
+7. Repair or replace components.
+8. Retest fully.
+9. Record findings.
+
+Common signs:
+• MCB tripping → overcurrent or fault.
+• RCD tripping → leakage or imbalance.
+• No power → open circuit or loose termination.

@@ -1,0 +1,14 @@
+Insulation Resistance (IR)
+
+Purpose:
+To ensure conductors and equipment have adequate insulation.
+
+Test:
+• Use 500 V DC for most circuits (230 V single-phase).
+• Test L–N, L–E, N–E.
+• Minimum acceptable value: 1 MΩ for the whole installation.
+• New installations typically show 200 MΩ+.
+
+Notes:
+• Disconnect sensitive equipment (dimmers, smart devices).
+• If low, divide the circuit into parts to find the fault.

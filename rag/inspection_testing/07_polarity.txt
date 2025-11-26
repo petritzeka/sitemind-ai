@@ -1,0 +1,12 @@
+Polarity Checks (Dead + Live)
+
+Dead polarity confirms:
+• Line is not connected to neutral or earth.
+• Line goes to switches, not neutral.
+• CPCs are present and continuous.
+
+Live polarity confirms:
+• Line and neutral are in the correct terminals.
+• Correct operation of switches and devices.
+
+Incorrect polarity is dangerous — must be corrected immediately.

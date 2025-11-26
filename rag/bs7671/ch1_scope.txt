@@ -1,0 +1,19 @@
+BS 7671 Chapter 1 – Scope, Object and Fundamental Principles
+
+Scope:
+• Covers all fixed electrical installations in the UK.
+• Applies to LV and ELV systems (up to 1000V AC).
+
+Object of the regulations:
+• Ensure safety from electric shock.
+• Protect against fire, heat, and mechanical damage.
+• Provide correct functionality of the installation.
+
+Fundamental principles:
+• Protection against shock: basic protection + fault protection.
+• Protection against thermal effects.
+• Selection of appropriate equipment.
+• Adequate maintenance and safe working practices.
+
+Key definitions:
+• Live part, exposed-conductive-part, fault current, SELV, PELV, FELV.

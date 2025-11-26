@@ -1,0 +1,27 @@
+Inspection (before testing):
+• Verify presence of bonding.
+• Check IP rating.
+• Check correct cable routing.
+• Check identification and labelling.
+• Check accessibility of equipment.
+
+Testing – dead tests:
+1. CPC continuity (R1+R2).
+2. Ring final continuity (r1, rn, r2).
+3. Insulation resistance >1 MΩ.
+4. Polarity.
+
+Testing – live tests:
+1. Ze.
+2. Zs.
+3. PSCC/PEFC.
+4. RCD tests: ½×, 1×, 5×.
+5. Functional tests.
+
+Certification:
+• EIC, EICR, Minor Works.
+• Schedules of inspections & test results.
+
+Commissioning:
+• Confirm operation of all equipment.
+• Hand over documentation.

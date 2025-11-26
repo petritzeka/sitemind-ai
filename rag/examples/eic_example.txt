@@ -1,0 +1,33 @@
+Example – Electrical Installation Certificate (EIC)
+
+Client: Example Client
+Address: 123 Test Road, London
+Work: New installation – consumer unit + 4 circuits
+
+Supply characteristics:
+• Earthing system: TN-C-S
+• Nominal voltage: 230 V
+• Ze: 0.35 Ω
+• PFC: 3.5 kA
+• Main protective device: 100 A isolator
+
+Main protective conductors:
+• Earthing conductor: 16 mm² copper
+• Main bonding: 10 mm² copper
+
+Schedule of Inspections (summary):
+• Intake equipment condition: OK
+• External earth loop impedance verified: Yes
+• Bonding to gas/water: Present
+• Cable routing in safe zones: Confirmed
+• IP rating of enclosures: Suitable
+
+Schedule of Test Results:
+• All circuits meet Zs requirements
+• RCD operation verified
+• Polarity, IR, continuity passed
+
+Signatures:
+• Designed by: A. Example
+• Constructed by: A. Example
+• Tested by: A. Example

@@ -1,0 +1,37 @@
+Basic electricity:
+• Voltage (V), Current (I), Resistance (R), Power (P).
+• Ohm’s Law: V = I × R.
+• Power formulas: P = V × I, P = I²R, P = V² / R.
+
+Series circuits:
+• Current same everywhere.
+• Voltages share.
+• Resistances add: Rt = R1+R2+R3.
+
+Parallel circuits:
+• Voltage same on each branch.
+• Currents share.
+• Formula: 1/Rt = 1/R1+1/R2+1/R3.
+
+AC supply:
+• UK: 230V ±10%, 50 Hz.
+• Single-phase vs three-phase.
+
+Earthing:
+• Provides fault path.
+• Enables ADS (automatic disconnection of supply).
+
+Magnetism:
+• Coils produce magnetic fields.
+• Transformers use induction:
+  Vs/Vp = Ns/Np.
+
+Generation:
+• Power stations → transformers → transmission → distribution.
+
+RCD operation:
+• Trip when imbalance in L & N.
+• Common rating: 30 mA.
+
+Units:
+• V, A, Ω, W, kW, kWh.
