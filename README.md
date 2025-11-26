@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/logo.png" width="140" />
+  <img src="logo.png" width="140" />
 </p>
 
 # SiteMind AI
