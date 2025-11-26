@@ -1,0 +1,12 @@
+This folder contains reference information to improve OCR accuracy when processing distribution board photos.
+
+It includes:
+- RCBO boards
+- Dual RCD boards
+- Old-style fuse boards
+- Three-phase commercial boards
+- Circuit label patterns
+- OCR extraction notes
+- Example circuit table formats
+
+These documents help SiteMind AI understand how real boards look, common circuit names, and how to convert raw OCR results into structured data for test sheets.

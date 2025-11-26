@@ -1,0 +1,30 @@
+Common Circuit Label Patterns:
+
+Lighting:
+- Lights up
+- Lights down
+- Lighting
+- Lts / Ltng
+
+Sockets:
+- Sockets up
+- Sockets down
+- Ring up
+- Ring down
+- Kitchen ring
+
+Special circuits:
+- Cooker
+- Shower
+- Boiler
+- Immersion
+- Smoke alarms
+- Dishwasher
+- Fridge / Freezer
+- Washing machine
+
+Commercial:
+- AC
+- MTR
+- PUMP
+- FAN

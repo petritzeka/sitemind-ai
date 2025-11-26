@@ -1,0 +1,19 @@
+Confusing label examples and fixes:
+
+1. "ktch rn"
+Fix: "Kitchen ring"
+
+2. "lts dn"
+Fix: "Lights downstairs"
+
+3. "showr"
+Fix: "Shower"
+
+4. "cokar"
+Fix: "Cooker"
+
+5. "ringskt dn"
+Fix: "Sockets ring downstairs"
+
+6. "s/alarm"
+Fix: "Smoke alarms"

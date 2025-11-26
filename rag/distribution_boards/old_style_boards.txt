@@ -1,0 +1,15 @@
+Old-Style Fuse Boards (rewireable fuses)
+
+Characteristics:
+- BS3036 fuses, sometimes cartridge style.
+- Labels are often handwritten or very faded.
+- Many boards have missing or incorrect labels.
+- Frequently found in old domestic properties.
+
+Common problems:
+- Circuits not numbered.
+- Circuits labelled "sockets" with no indication of floor.
+- Shared neutral issues.
+
+OCR Notes:
+These boards require more interpretation. Use common circuit patterns + property type assumptions to build the table.

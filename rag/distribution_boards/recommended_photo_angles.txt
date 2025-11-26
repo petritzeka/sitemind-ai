@@ -1,0 +1,13 @@
+Recommended Photo Angles for OCR:
+
+- Full board exactly from the front.
+- Labels must be clearly visible.
+- Avoid shadows over circuit labels.
+- If board is tall, take two photos:
+  - Top half (RCDs, main switch)
+  - Bottom half (MCBs/RCBOs)
+
+Ask users to:
+- Move cables gently if blocking labels.
+- Turn flash on.
+- Take photo at eye level.

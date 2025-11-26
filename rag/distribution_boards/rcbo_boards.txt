@@ -1,0 +1,22 @@
+RCBO Boards (Fully loaded with RCBOs)
+
+Characteristics:
+- Each circuit has its own RCBO.
+- Usually full protection and easier to understand.
+- No "left side RCD / right side RCD" layout.
+- Circuit numbers often run top to bottom.
+
+Typical circuits:
+1. Lights (upstairs)
+2. Lights (downstairs)
+3. Sockets (upstairs)
+4. Sockets (downstairs)
+5. Cooker
+6. Shower
+7. Boiler
+8. Kitchen ring
+9. Smoke alarms
+10. Immersion heater
+
+OCR Note:
+RCBO boards are the easiest to parse because each device is clearly labelled individually.

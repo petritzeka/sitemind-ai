@@ -1,0 +1,26 @@
+Dual RCD Boards (split-load consumer units)
+
+Characteristics:
+- Two RCDs: Left RCD and Right RCD.
+- Circuits are grouped under each RCD.
+- First module often main switch, then RCD, then MCBs.
+
+OCR Challenges:
+- Sometimes labels are written only once for each group.
+- Circuits may be labelled with arrows or grouped descriptions.
+
+Common circuits:
+Left side:
+- Lights up
+- Lights down
+- Cooker
+- Smoke alarms
+
+Right side:
+- Sockets ring
+- Kitchen ring
+- Boiler
+- Shower
+
+Conversion tip:
+Match circuit numbers to positions under each RCD, not top-to-bottom sequentially.

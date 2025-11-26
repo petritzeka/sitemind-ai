@@ -1,0 +1,34 @@
+Standard SiteMind AI circuit table format:
+
+[
+  {
+    "circuit_number": 1,
+    "description": "Lights downstairs",
+    "type_of_wiring": "T&E",
+    "reference_method": "100",
+    "points_served": 6,
+    "cpc_size": "1.0mm",
+    "live_conductor_size": "1.0mm",
+    "protective_device": {
+        "bs_en": "BS EN 60898",
+        "type": "B",
+        "rating": "6A"
+    }
+  },
+  {
+    "circuit_number": 2,
+    "description": "Sockets ring downstairs",
+    "type_of_wiring": "T&E",
+    "reference_method": "100",
+    "points_served": 8,
+    "cpc_size": "1.5mm",
+    "live_conductor_size": "2.5mm",
+    "protective_device": {
+        "bs_en": "BS EN 61009",
+        "type": "B",
+        "rating": "32A"
+    }
+  }
+]
+
+This is the ideal structure for sending into the test sheet generator.

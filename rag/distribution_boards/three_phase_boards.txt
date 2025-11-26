@@ -1,0 +1,18 @@
+Three-Phase Distribution Boards (Commercial/Industrial)
+
+Characteristics:
+- L1/L2/L3 arrangement
+- Terminal layouts vary heavily by manufacturer
+- Circuits often labelled as:
+  - L1 lights
+  - L2 sockets
+  - L3 AC units
+  - Three-phase motors
+  - Submains
+
+OCR Notes:
+- Phase numbers often detected incorrectly (L1 becomes “11”, L3 becomes “13”).
+- Motor circuits often appear as “MTR”, “PMP”, “FAN”, “AC”.
+
+Important:
+For domestic-focused users, identify and respond that three-phase boards may require a different test sheet.

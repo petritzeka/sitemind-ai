@@ -1,0 +1,16 @@
+OCR Extraction Notes
+
+Common issues:
+- "L" becomes "1"
+- "O" becomes "0"
+- "B32" becomes "832"
+- "6A" becomes "GA"
+
+Fixes:
+- If "6A" detected as "GA", convert to "6A".
+- If label ends in "32" with no letter, assume "B32".
+- If RCBO detected as "RCD", check context.
+- If description contains floor names ("up", "down"), convert to standard form.
+
+Important:
+Use common electrician logic to repair incomplete labels.
