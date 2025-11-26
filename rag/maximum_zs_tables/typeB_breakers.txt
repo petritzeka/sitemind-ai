@@ -1,0 +1,14 @@
+Maximum Zs values for BS EN 60898 Type B:
+
+6A  -> 7.67Ω  
+10A -> 4.41Ω  
+16A -> 2.76Ω  
+20A -> 2.20Ω  
+32A -> 1.37Ω  
+40A -> 1.10Ω  
+50A -> 0.88Ω  
+63A -> 0.70Ω  
+
+Notes:
+- These assume 0.4s disconnection.
+- Used for most domestic lighting and socket circuits.

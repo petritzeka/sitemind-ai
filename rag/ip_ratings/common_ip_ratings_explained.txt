@@ -1,0 +1,27 @@
+IP20:
+- No water protection.
+- Common for indoor accessories (sockets, switches).
+
+IP44:
+- Splash proof.
+- Used in bathrooms (zone 2) and sheltered outdoor areas.
+
+IP55:
+- Jet resistant.
+- Suitable for some outside environments.
+
+IP65:
+- Dust tight + water jets.
+- Common for outdoor wall lights.
+
+IP66:
+- Powerful water jets.
+- Harsh outdoor environments.
+
+IP67:
+- Submersible up to 1m.
+- Garden lighting, ground spike lights.
+
+IP68:
+- Continuous submersion.
+- Ponds, water features.

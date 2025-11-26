@@ -1,0 +1,13 @@
+Maximum Zs values for BS EN 60898 Type C:
+
+6A  -> 3.83Ω  
+10A -> 2.21Ω  
+16A -> 1.38Ω  
+20A -> 1.10Ω  
+32A -> 0.69Ω  
+40A -> 0.55Ω  
+50A -> 0.44Ω  
+
+Notes:
+- Type C requires lower Zs (higher magnetic threshold).
+- Common in commercial installs or high inrush loads.

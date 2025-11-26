@@ -1,0 +1,17 @@
+Second Digit (Protection Against Liquids):
+
+0 – No protection  
+1 – Dripping water  
+2 – Drips at 15 degrees  
+3 – Sprays up to 60 degrees  
+4 – Splashing water  
+5 – Water jets  
+6 – Powerful jets  
+7 – Immersion up to 1m  
+8 – Continuous immersion  
+9 – High-pressure hot water (industrial)
+
+Common domestic examples:
+- IP44 (bathroom zone 2 fittings)
+- IP65 (outdoor lights)
+- IP67 (garden ground lighting)

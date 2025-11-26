@@ -1,0 +1,13 @@
+The IP code has two main digits:
+
+IPXY
+
+X – First digit (0–6): Protection against solid objects.
+Y – Second digit (0–9): Protection against water.
+
+Optional letters:
+- F = Oil resistant
+- M = Tested with moving parts
+- S = Tested with stationary parts
+
+In domestic installations, the main concern is choosing the correct rating for bathrooms, outdoor areas, and kitchens.

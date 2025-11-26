@@ -1,0 +1,10 @@
+Maximum Zs values in BS 7671 already include adjustment for normal operating temperature.
+
+Important notes:
+- You do NOT apply 80% rule anymore (it was for older tables).
+- Zs values in tables are the final values you compare to.
+- If Ze is high, you must check bonding and earthing system.
+
+Temperature effects:
+- High conductor temperature increases resistance.
+- BS 7671 tables assume worst-case operating temperature.

@@ -1,0 +1,13 @@
+Maximum Zs values for BS EN 60898 Type D:
+
+6A  -> 1.91Ω  
+10A -> 1.10Ω  
+16A -> 0.69Ω  
+20A -> 0.55Ω  
+32A -> 0.34Ω  
+40A -> 0.27Ω  
+50A -> 0.22Ω  
+
+Notes:
+- Rare in domestic.
+- Used for motors, welders, or specialist equipment.

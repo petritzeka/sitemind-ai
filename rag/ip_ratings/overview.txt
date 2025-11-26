@@ -1,0 +1,11 @@
+IP (Ingress Protection) ratings classify how well an electrical enclosure protects against solids (dust) and liquids (water).
+
+Format:
+IPXY
+X = protection against solids
+Y = protection against liquids
+
+Example:
+IP65 = Dust tight + Protected against water jets.
+
+IP ratings help electricians choose suitable equipment for bathrooms, kitchens, outdoor areas, and industrial environments.

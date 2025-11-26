@@ -1,0 +1,22 @@
+Example 1:
+Bathroom downlight over shower:
+- Zone 1
+- Must be IPX4 (IP44 or higher)
+
+Example 2:
+Outdoor garden spike light:
+- Contact with soil and water
+- IP67 minimum
+
+Example 3:
+Security floodlight under a porch:
+- Sheltered but outside
+- IP44 or IP65 acceptable
+
+Example 4:
+Bathroom mirror light in Zone 2:
+- IP44 required
+
+Example 5:
+External socket with risk of rain:
+- IP66 recommended

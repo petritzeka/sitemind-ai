@@ -1,0 +1,9 @@
+This folder contains maximum Zs values used for checking final circuit disconnection times against BS 7671 requirements.
+
+Zs = external earth fault loop impedance (Ze) + R1 + R2.
+
+These tables are essential for:
+- Testing and inspection
+- Test sheets
+- Assessing pass/fail on circuits
+- Tutor Mode explanations

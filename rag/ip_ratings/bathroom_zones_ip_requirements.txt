@@ -1,0 +1,21 @@
+Bathroom zones (BS 7671 & IET guidance):
+
+Zone 0:
+- Inside bath/shower.
+- Minimum IPX7.
+- SELV only (12V max).
+
+Zone 1:
+- Above bath/shower up to 2.25m.
+- Minimum IPX4.
+- IPX5 if water jets possible.
+
+Zone 2:
+- 0.6m around bath/shower.
+- Minimum IPX4.
+
+Outside zones:
+- No minimum requirement, but IP44+ recommended.
+
+Note:
+Shaver sockets, pull cords, and extractor fans have special conditions.

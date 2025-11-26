@@ -1,0 +1,20 @@
+Steps to compare measured Zs to maximum Zs:
+
+1. Find the device type:
+   - B, C, D
+   - MCB or RCBO
+
+2. Find the rating:
+   - 6A, 32A, etc.
+
+3. Look up the maximum Zs in the tables.
+
+4. Compare:
+   If Measured Zs ≤ Maximum Zs → PASS  
+   If Measured Zs > Maximum Zs → FAIL
+
+5. If fail:
+   - Check R1+R2 values
+   - Check connections
+   - Check bonding
+   - Verify device type is correct

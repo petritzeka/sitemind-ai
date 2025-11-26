@@ -1,0 +1,13 @@
+First Digit (Protection Against Solids):
+
+0 – No protection  
+1 – Large objects >50mm  
+2 – Fingers >12.5mm  
+3 – Tools/wires >2.5mm  
+4 – Tools/wires >1mm  
+5 – Dust protected  
+6 – Dust tight (complete protection)
+
+Most common in domestic:
+- IP2X for consumer units (prevent finger contact)
+- IP4X required on top of consumer units (prevent wires entering)

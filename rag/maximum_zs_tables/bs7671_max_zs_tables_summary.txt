@@ -1,0 +1,13 @@
+Maximum Zs values are taken from BS 7671 and depend on:
+- Protective device type (MCB, RCBO, fuse)
+- Device curve (B, C, D)
+- Device rating (6A, 32A, etc.)
+- Earthing system
+- Voltage (230V)
+
+Common domestic protective devices:
+- BS EN 60898 (Type B, C, D MCBs)
+- BS EN 61009 (RCBOs)
+- BS 3036 rewireable fuses (old)
+
+The values assume 0.4s disconnection time for final circuits up to 32A.

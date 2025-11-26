@@ -1,0 +1,9 @@
+Common mistakes when checking Zs:
+
+- Using the wrong table (Type C instead of Type B)
+- Forgetting that RCDs do not affect Zs values
+- Not identifying device type properly
+- Comparing Zs to Zc (wrong value)
+- Using 80% rule (obsolete)
+- Measuring Zs on a dead circuit (should be L+E loop)
+- Using neutral instead of earth in loop test

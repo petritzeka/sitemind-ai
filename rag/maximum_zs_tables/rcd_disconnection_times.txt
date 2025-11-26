@@ -1,0 +1,14 @@
+RCD Disconnection Requirements (BS 7671)
+
+At IΔn:
+- Must trip within 300ms.
+
+At 5 × IΔn:
+- Must trip within 40ms.
+
+At 0.5 × IΔn:
+- Must NOT trip.
+
+Important:
+RCDs do NOT change Zs limits.
+They only provide additional protection.
