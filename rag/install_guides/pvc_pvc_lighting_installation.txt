@@ -1,0 +1,42 @@
+TITLE: Installing PVC/PVC Cable Clipped Direct for Lighting Circuits
+
+OVERVIEW:
+PVC/PVC cable clipped direct is a common method for domestic lighting. This guide covers 1-way, 2-way and 3-way (intermediate) switching arrangements.
+
+TOOLS / PPE:
+- Cutters
+- Hammer
+- Screwdrivers
+- Continuity tester
+- Connector blocks
+- Safety glasses
+
+MATERIALS:
+- 1.5 mm² twin & earth cable
+- Switches (1-way, 2-way, intermediate)
+- Ceiling roses or light points
+- Cable clips
+- Back boxes
+- Earth sleeving
+
+SAFETY CHECKS:
+- Prove dead before working.
+- Keep cable routes within safe zones.
+
+METHOD:
+1. Mark vertical and horizontal safe zones.
+2. Clip cables neatly with consistent spacing.
+3. Install switches:
+   - 1-way: COM to L1.
+   - 2-way: COM, L1, L2.
+   - Intermediate: L1-L1 and L2-L2 through the switch.
+4. Install ceiling rose:
+   - Loop, neutral and switched live identified with sleeving.
+   - CPC sleeved and terminated.
+5. Test continuity of CPC, line and strappers.
+6. Leave ready for insulation resistance testing.
+
+GOOD PRACTICE:
+- Straight cable runs.
+- Switched live correctly sleeved brown.
+- CPC sleeved at all points.

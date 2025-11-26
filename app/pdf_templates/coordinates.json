@@ -1,8 +1,49 @@
 {
-  "db_reference": { "page": 1, "x": 65, "y": 730 },
+  "db_reference": {"page": 1, "x": 127, "y": 756},
+  "location": {"page": 1, "x": 312, "y": 756},
+  "supplied_from": {"page": 1, "x": 510, "y": 756},
 
-  "circuit_1_no": { "page": 1, "x": 35, "y": 690 },
-  "circuit_1_description": { "page": 1, "x": 65, "y": 690 },
-  "circuit_1_rating": { "page": 1, "x": 125, "y": 690 },
-  "circuit_1_zs": { "page": 1, "x": 155, "y": 690 }
+  "ocpd_bs_en": {"page": 1, "x": 178, "y": 722},
+  "ocpd_type": {"page": 1, "x": 305, "y": 722},
+  "ocpd_rating": {"page": 1, "x": 440, "y": 722},
+
+  "spd_installed": {"page": 1, "x": 128, "y": 690},
+  "spd_t1": {"page": 1, "x": 212, "y": 690},
+  "spd_t2": {"page": 1, "x": 264, "y": 690},
+  "spd_t3": {"page": 1, "x": 316, "y": 690}
+
+  ,
+  "circuits": {
+    "row_height": 28,
+    "start_y": 637
+  },
+
+  "circuit_fields": {
+    "number":   {"x": 57,  "w": 20},
+    "description": {"x": 85,  "w": 127},
+    "wiring_type": {"x": 226, "w": 57},
+    "ref_method":  {"x": 297, "w": 57},
+    "points":      {"x": 368, "w": 43},
+    "live":        {"x": 425, "w": 43},
+    "cpc":         {"x": 482, "w": 43},
+    "bsen":        {"x": 539, "w": 57},
+    "type":        {"x": 612, "w": 43},
+    "rating":      {"x": 670, "w": 57},
+    "zs_max":      {"x": 740, "w": 57}
+  },
+
+  "circuit_positions": {
+    "circuit_1":  {"page": 1, "y": 637},
+    "circuit_2":  {"page": 1, "y": 609},
+    "circuit_3":  {"page": 1, "y": 581},
+    "circuit_4":  {"page": 1, "y": 553},
+    "circuit_5":  {"page": 1, "y": 525},
+    "circuit_6":  {"page": 1, "y": 497},
+    "circuit_7":  {"page": 1, "y": 469},
+    "circuit_8":  {"page": 1, "y": 441},
+    "circuit_9":  {"page": 1, "y": 413},
+    "circuit_10": {"page": 1, "y": 385},
+    "circuit_11": {"page": 1, "y": 357},
+    "circuit_12": {"page": 1, "y": 329}
+  }
 }

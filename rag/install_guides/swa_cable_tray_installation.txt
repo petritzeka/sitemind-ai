@@ -1,0 +1,80 @@
+TITLE: Installing SWA Cable on Cable Tray to an Isolator
+
+OVERVIEW:
+SWA cable provides mechanical protection and is commonly supported on metal cable tray. This guide covers mounting tray, creating a 90° bend, securing SWA neatly, glanding and terminating into an isolator.
+
+TOOLS / PPE:
+- Cutters
+- Hammer
+- Screwdrivers
+- Continuity tester
+- Measuring tape
+- Hacksaw or tin snips
+- Reamer/file
+- Marker/pencil
+- Level
+- Pliers/grips
+- Drill + metal drill bits (if needed)
+- PPE (gloves, eye protection)
+
+MATERIALS:
+- SWA cable
+- SWA glands (BW or CW)
+- Cable tray (galvanised steel)
+- Tray couplers or fishplates
+- Cable ties or saddles
+- Isolator switch
+- Nuts, bolts and washers
+- Screws / bolts for fixing tray
+
+SAFETY CHECKS:
+- Wear gloves when handling SWA and metal tray.
+- Deburr all metal edges to protect the cable.
+- Ensure tray is secured before loading cable.
+
+METHOD:
+1. Install cable tray:
+   - Mark the route and ensure it is level.
+   - Fix tray securely to brackets or Unistrut.
+   - Maintain equal spacing of supports for neatness and strength.
+
+2. Creating a 90° bend on metal tray:
+   - Measure the location where the 90° turn is required.
+   - Mark a straight line across both side rails.
+   - Using a hacksaw or tin snips, cut ONLY the side rails—do not fully cut the base.
+   - Leave the base intact so the tray can fold smoothly.
+   - Carefully bend the tray to 90°, checking with a square/level.
+   - File all cut edges to remove sharp burrs.
+   - Reinforce the bend using tray couplers or fishplates and bolt them securely.
+
+3. Laying SWA cable:
+   - Place the SWA cable onto the tray.
+   - Use cable ties or saddles at even spacing.
+   - Avoid crushing the outer sheath or armour.
+   - Maintain a smooth bend radius, especially at the 90° tray bend.
+
+4. Preparing the SWA gland:
+   - Strip the outer sheath carefully.
+   - Splay armour strands evenly.
+   - Fit gland components in the correct order.
+   - Slide armour grip into place and tighten fully.
+
+5. Terminating the SWA cable:
+   - Fit gland into DB, enclosure or isolator.
+   - Tighten locknut securely ensuring metal-to-metal contact.
+   - Connect L, N and CPC inside the isolator or enclosure.
+   - Verify earth continuity using tester.
+
+GOOD PRACTICE:
+- Tray runs straight and level.
+- Bend radius smooth with reinforced plates.
+- No sharp edges at cuts or bends.
+- SWA secured without crushing.
+- Gland correctly installed with tidy armour grip.
+
+COMMON FAULTS:
+- Bend not a true 90°, causing misalignment.
+- Sharp edges left unfiled.
+- SWA tied too tightly, damaging sheath.
+- Gland components fitted in wrong order.
+- Loose locknut causing poor earth continuity.

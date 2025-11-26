@@ -10,16 +10,14 @@ from app.services.ai_service import (
     build_or_load_vectorstore
 )
 
-# Route path from env (defaults to /whatsapp)
 WHATSAPP_WEBHOOK_PATH = os.getenv("WHATSAPP_WEBHOOK_PATH", "/whatsapp")
 bp = Blueprint("whatsapp", __name__)
 
-# Cache vectorstore after first build
+# Cache vectorstore
 _VS = None
 
 
 def _validate_signature() -> bool:
-    """Validate Twilio signature if enforcement is enabled."""
     if not current_app.config.get("ENFORCE_TWILIO_SIGNATURE", False):
         return True
     validator = RequestValidator(current_app.config["TWILIO_AUTH_TOKEN"])
@@ -35,13 +33,14 @@ def _onboarding() -> str:
         "Your 24/7 AI Electrician Assistant — here to help you learn, plan, and work smarter.\n\n"
         "Ask anything or try:\n"
         "• study plan\n• quick quiz\n• explain a topic\n• help\n\n"
-        "🤖 Note: AI can make mistakes — always double-check critical details and work safely.\n"
+        "🤖 Note: AI can make mistakes — always double-check critical details.\n"
         f"🗓 Daily free limit: {os.getenv('FREE_TRIAL_DAILY_CAP', '5')} messages/day\n"
-        f"🎓 You’re on a {current_app.config['FREE_TRIAL_DAYS']}-day free trial.\n"
+        f"🎓 Free trial: {current_app.config['FREE_TRIAL_DAYS']} days\n"
         f"🔒 Privacy: {current_app.config['PRIVACY_URL']}\n"
         f"📄 Terms: {current_app.config['TERMS_URL']}\n"
         f"💳 Subscribe: {current_app.config['SUBSCRIBE_URL']}"
     )
+
 
 @bp.post(WHATSAPP_WEBHOOK_PATH)
 def whatsapp_webhook():
@@ -49,14 +48,14 @@ def whatsapp_webhook():
     if not _validate_signature():
         abort(403, "Invalid Twilio signature")
 
-    # --- Parse incoming ---
+    # --- Parse ---
     body = (request.form.get("Body") or "").strip()
     from_number = request.form.get("From", "")
     user_id = from_number or "unknown"
     num_media = int(request.form.get("NumMedia", "0"))
     now_ts = utc_now_ts()
 
-      # --- Free-trial / usage guard (applies to all kinds of messages) ---
+    # --- Free trial guard ---
     allowed, block_msg = check_and_count(
         user_id=user_id,
         now_ts=now_ts,
@@ -69,15 +68,14 @@ def whatsapp_webhook():
         r.message(block_msg)
         return str(r), 200
 
-
-    # === 1) MEDIA FIRST (handles image/voice so image-only messages don't trigger onboarding) ===
+    # === 1) MEDIA FIRST ===
     if num_media > 0:
         ct = request.form.get("MediaContentType0", "")
         url = request.form.get("MediaUrl0", "")
 
         try:
             if ct.startswith("image/"):
-                reply = vision_answer(url, body or "Describe and help me solve this.")
+                reply = vision_answer(url, body or "Describe what you need help with.")
 
             elif ct.startswith("audio/") or ct in {"application/ogg", "audio/ogg", "audio/webm"}:
                 sid = current_app.config["TWILIO_ACCOUNT_SID"]
@@ -87,7 +85,7 @@ def whatsapp_webhook():
                 reply = transcribe_and_answer(resp.content)
 
             else:
-                reply = f"Got your file ({ct}). I currently support images and voice notes."
+                reply = f"Got your file ({ct}). I support images & voice notes."
 
         except Exception as e:
             reply = f"⚠️ I couldn't process that media: {e}"
@@ -99,43 +97,34 @@ def whatsapp_webhook():
         r.message(reply)
         return str(r), 200
 
-       # === 2) TEXT FLOW ===
+    # === 2) TEXT TOO LONG ===
     cap = int(current_app.config.get("WORD_CAP", 200))
     if body and len(body.split()) > cap:
         r = MessagingResponse()
-        r.message(
-            f"⚠️ Your message is too long ({len(body.split())} words). "
-            f"Please keep it under {cap} words and resend 👍"
-        )
+        r.message(f"⚠️ Message too long ({len(body.split())} words). Limit is {cap}.")
         return str(r), 200
 
     # === 3) KEYWORD SHORTCUTS ===
+    lower = body.lower().strip()
 
     # === TEST SHEET GENERATOR ===
     if "generate test sheet" in lower or "test sheet" in lower:
         try:
-            # 1. Extract data from OCR or ask GPT to infer missing fields
             from app.pdf_templates.fill_template import generate_filled_pdf
             from app.services.testing_service import extract_values_from_user_or_OCR
 
             data = extract_values_from_user_or_OCR(user_id)
-
-            # 2. Generate PDF
             pdf_path = generate_filled_pdf(data)
 
-            # 3. Send PDF back to user
             r = MessagingResponse()
-            msg = r.message("Here is your test sheet ⚡️")
+            msg = r.message("Here is your test sheet!")
             msg.media(pdf_path)
-
             return str(r), 200
 
         except Exception as e:
             r = MessagingResponse()
             r.message(f"⚠️ I couldn't generate the test sheet: {e}")
             return str(r), 200
-
-    lower = body.lower().strip()
 
     # PAY / SUBSCRIBE
     if any(word in lower for word in [
@@ -144,13 +133,8 @@ def whatsapp_webhook():
     ]):
         monthly = current_app.config.get("SUBSCRIBE_MONTHLY_URL")
         annual = current_app.config.get("SUBSCRIBE_ANNUAL_URL")
-        msg = (
-            "Choose your plan:\n"
-            f"• £8.99/month → {monthly}\n"
-            f"• £79.99/year → {annual}"
-        )
         r = MessagingResponse()
-        r.message(msg)
+        r.message(f"Choose a plan:\n£8.99/month → {monthly}\n£79.99/year → {annual}")
         return str(r), 200
 
     # CANCEL / MANAGE SUBSCRIPTION
@@ -159,12 +143,8 @@ def whatsapp_webhook():
         "billing", "account", "payment", "refund"
     ]):
         portal = current_app.config.get("STRIPE_PORTAL_URL")
-        msg = (
-            "Manage or cancel your subscription securely here:\n"
-            f"{portal}"
-        )
         r = MessagingResponse()
-        r.message(msg)
+        r.message(f"Manage your subscription:\n{portal}")
         return str(r), 200
 
     # === 4) VECTORSTORE (RAG) ===
@@ -175,7 +155,7 @@ def whatsapp_webhook():
     history = fetch_history(user_id, limit=10)
     ctx = retrieve_context(_VS, body, k=4)
 
-    # === ONBOARDING FOR NEW USERS ===
+    # === ONBOARDING ===
     if not history and num_media == 0 and body:
         reply = _onboarding()
         append_message(user_id, "assistant", reply, now_ts)
@@ -183,10 +163,11 @@ def whatsapp_webhook():
         r.message(reply)
         return str(r), 200
 
+    # === GPT FALLBACK ===
     try:
         reply = chat_reply(body, history, ctx)
     except Exception as e:
-        reply = f"⚠️ I had trouble generating a reply. Please try again. ({e})"
+        reply = f"⚠️ Error: {e}"
 
     append_message(user_id, "user", body, now_ts)
     append_message(user_id, "assistant", reply, utc_now_ts())

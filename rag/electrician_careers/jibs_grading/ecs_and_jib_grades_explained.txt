@@ -1,0 +1,6 @@
+Grades:
+- Labourer
+- Electrician’s Mate
+- Electrician
+- Approved Electrician
+- Technician

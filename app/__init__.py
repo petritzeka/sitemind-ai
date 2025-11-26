@@ -47,6 +47,10 @@ def create_app():
     # ✅ Register blueprints
     from app.routes.whatsapp import bp as whatsapp_bp
     from app.routes.stripe_routes import bp as stripe_bp
+    
+    from app.routes.files import files_bp
+    app.register_blueprint(files_bp)
+
     app.register_blueprint(whatsapp_bp)
     app.register_blueprint(stripe_bp)
 

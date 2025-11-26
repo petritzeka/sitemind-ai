@@ -1,0 +1,36 @@
+TITLE: Installing SY Cable on Steel Tray
+
+OVERVIEW:
+SY cable is flexible with braided armour. This guide covers routing it on tray, avoiding damage to braid and terminating correctly.
+
+TOOLS / PPE:
+- Cutters
+- Screwdrivers
+- Measuring tape
+- Cable ties
+- PPE
+
+MATERIALS:
+- SY cable
+- SY glands
+- Steel tray
+- Isolator/outlet
+- Fixings
+
+SAFETY CHECKS:
+- Avoid overtightening cable ties (crushes braid).
+- Maintain bend radius.
+
+METHOD:
+1. Mount steel tray in the required route.
+2. Lay SY cable along tray and secure lightly.
+3. Avoid sharp edges that may damage the braid.
+4. Prepare termination:
+   - Strip outer sheath cleanly.
+   - Expose braid without cutting strands.
+   - Fit SY gland correctly.
+5. Terminate into isolator/outlet ensuring CPC continuity.
+
+GOOD PRACTICE:
+- Keep braid intact.
+- No excessive bending.

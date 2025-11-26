@@ -1,0 +1,34 @@
+TITLE: Installing PVC Trunking with Singles
+
+OVERVIEW:
+PVC trunking is used to protect and organise single-core cables. This guide covers mounting trunking, using bends and routing singles neatly.
+
+TOOLS / PPE:
+- Saw
+- Screwdrivers
+- File/reamer
+- Tape measure
+- PPE
+
+MATERIALS:
+- PVC trunking & lid
+- T-bends, couplers, end caps
+- 2.5 mm² singles
+- Back box
+- Fuse spur
+
+SAFETY CHECKS:
+- Deburr all cut edges.
+- Do not overload trunking.
+
+METHOD:
+1. Mark the route and fix trunking level.
+2. Cut trunking to length and deburr edges.
+3. Fit bends, couplers and end caps.
+4. Lay singles inside trunking neatly without twists.
+5. Install lid securely.
+6. Terminate into accessories.
+
+GOOD PRACTICE:
+- Even spacing of screws.
+- Wires laid flat and organised.

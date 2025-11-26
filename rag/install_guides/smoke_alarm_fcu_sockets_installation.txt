@@ -1,0 +1,34 @@
+TITLE: Installing a Smoke Alarm with FCU and Sockets (Mini Radial)
+
+OVERVIEW:
+A small installation demonstrating supply to an FCU, smoke alarm and a row of sockets.
+
+TOOLS / PPE:
+- Screwdrivers
+- Cutters
+- Hammer
+- Tester
+- PPE
+
+MATERIALS:
+- FCU
+- Smoke alarm
+- Sockets
+- T&E cable
+- Back boxes
+
+SAFETY CHECKS:
+- Ensure correct fuse in FCU.
+- Prove dead before working.
+
+METHOD:
+1. Bring supply into FCU and terminate L/N/E.
+2. From FCU, run cable to the smoke alarm and terminate correctly.
+3. Maintain CPC continuity.
+4. Run radial cable to each socket.
+5. Terminate L/N/E into each accessory.
+6. Test polarity and continuity.
+
+GOOD PRACTICE:
+- Neat cable routes.
+- Smoke alarm wired according to manufacturer’s instructions.

@@ -1,0 +1,37 @@
+TITLE: Installing PVC Conduit with Singles and FP200
+
+OVERVIEW:
+PVC conduit is used to protect cables on surface installations. This guide covers bending PVC conduit, pulling singles and routing FP200 safely.
+
+TOOLS / PPE:
+- Pipe cutter
+- Screwdrivers
+- Bending spring
+- Level
+- Tape measure
+- PPE
+
+MATERIALS:
+- 20 mm PVC conduit
+- Couplers and bushes
+- Back boxes
+- 1.5 or 2.5 mm² singles
+- FP200 cable
+- Female adapters
+
+SAFETY CHECKS:
+- Check bends are smooth without kinks.
+- Avoid forcing FP200 around tight bends.
+
+METHOD:
+1. Measure and cut conduit.
+2. Bend using a bending spring for smooth curves.
+3. Fit couplers and bushes where necessary.
+4. Secure conduit onto wall/board.
+5. Pull singles through carefully.
+6. Run FP200 separately where required and secure.
+7. Terminate into accessories.
+
+GOOD PRACTICE:
+- Smooth, neat bends.
+- No insulation damage.

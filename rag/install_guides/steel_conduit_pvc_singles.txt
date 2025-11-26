@@ -1,0 +1,35 @@
+TITLE: Installing Steel Conduit with PVC Singles
+
+OVERVIEW:
+Steel conduit provides excellent mechanical protection. This guide covers bending, joining and pulling singles for multi-way switching.
+
+TOOLS / PPE:
+- Conduit bender
+- Hacksaw
+- Reamer/file
+- Screwdrivers
+- Pulling cord
+- PPE
+
+MATERIALS:
+- 20 mm steel conduit
+- Couplers and bushes
+- Back boxes
+- PVC singles (line, neutral, CPC, strappers)
+- Ceiling roses or light fittings
+
+SAFETY CHECKS:
+- Deburr all conduit ends.
+- Fit bushes to prevent insulation damage.
+
+METHOD:
+1. Plan conduit route and measurements.
+2. Bend conduit using correct method and radius.
+3. Join conduit with couplers and secure bushings.
+4. Fix conduit level and secure.
+5. Pull singles through using draw wire.
+6. Terminate at switch (COM, L1, L2), intermediate switch if used, and light points.
+
+GOOD PRACTICE:
+- No sharp edges inside conduit.
+- Use lubrication for long runs.

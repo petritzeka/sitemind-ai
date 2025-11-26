@@ -1,0 +1,38 @@
+TITLE: Installing Socket Outlets (Ring Final or Radial)
+
+OVERVIEW:
+Sockets are commonly installed on ring or radial circuits. This guide covers cable routing, termination and final checks.
+
+TOOLS / PPE:
+- Screwdrivers
+- Cutters
+- Level
+- Tester
+- PPE
+
+MATERIALS:
+- 2.5 mm² T&E cable
+- Socket outlets
+- Back boxes
+- Fixings
+
+SAFETY CHECKS:
+- Prove dead before working.
+- Keep cable runs in safe zones.
+
+METHOD:
+1. Mark socket height and install back box level.
+2. Run cable vertically/horizontally in safe zones.
+3. Strip conductors and terminate:
+   - L (brown)
+   - N (blue)
+   - CPC (sleeved)
+4. For ring final:
+   - Two sets of L/N/E enter each socket.
+   - Maintain continuity of ring.
+5. Test R1+R2, polarity and insulation resistance.
+
+GOOD PRACTICE:
+- Tight but not overtightened terminals.
+- CPC sleeved correctly.
+- All connections secure.
