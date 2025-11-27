@@ -137,15 +137,27 @@ def whatsapp_webhook():
         r.message(f"Choose a plan:\n£8.99/month → {monthly}\n£79.99/year → {annual}")
         return str(r), 200
 
-    # CANCEL / MANAGE SUBSCRIPTION
+        # CANCEL / MANAGE SUBSCRIPTION
     if any(word in lower for word in [
         "cancel", "unsubscribe", "stop", "end", "manage",
-        "billing", "account", "payment", "refund"
+        "billing", "account", "payment", "refund", "subscription"
     ]):
         portal = current_app.config.get("STRIPE_PORTAL_URL")
         r = MessagingResponse()
-        r.message(f"Manage your subscription:\n{portal}")
+        r.message(
+            "Your SiteMind AI free trial has ended.\n\n"
+            "Activate your subscription to continue:\n"
+            f"{portal}\n\n"
+            "Instant access to:\n"
+            "• Test sheets PDF\n"
+            "• Distribution board OCR\n"
+            "• Level 2 & Level 3 Tutor Mode\n"
+            "• Quotes & invoices\n"
+            "• Photo analysis\n"
+            "• More coming every week"
+        )
         return str(r), 200
+
 
     # === 4) VECTORSTORE (RAG) ===
     global _VS

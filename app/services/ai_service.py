@@ -305,7 +305,18 @@ def check_and_count_daily(
     # Trial expiry
     if (now_ts > u["trial_end_ts"]) and not is_subscribed:
         conn.close()
-        return False, f"Your free trial has ended. 💳 Subscribe: {subscribe_url}"
+        return False, (
+            "Your SiteMind AI free trial has ended.\n\n"
+            "Activate your subscription to continue:\n"
+            f"{subscribe_url}\n\n"
+            "Instant access to:\n"
+            "• Test sheets PDF\n"
+            "• Distribution board OCR\n"
+            "• Level 2 & Level 3 Tutor Mode\n"
+            "• Quotes & invoices\n"
+            "• Photo analysis\n"
+            "• More coming every week"
+        )
 
     # Daily reset
     today = _today_iso_utc(now_ts)
@@ -335,7 +346,6 @@ def check_and_count_daily(
     conn.commit()
     conn.close()
     return True, ""
-
 
 # Keep this one (old) for backward compatibility
 def check_and_count(
