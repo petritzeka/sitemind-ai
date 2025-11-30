@@ -1,0 +1,153 @@
+1️⃣ Unit Sequence (Always in this order)
+1. Electrical Science & Principles
+
+Unit code: ELEC3/08B
+
+Usually taught first
+
+Covers three-phase basics, inductance, capacitance, impedance, magnetic fields, motors, transformers
+
+2. Design (On-Site Guide Allowed)
+
+Unit code: ELEC3/04a
+
+Taught after Electrical Science
+
+Includes cable calculation, protective devices, CPC sizing, OSG referencing, volt drop, design procedures
+
+3. Environmental Legislation
+
+Unit code: QELTK3/002
+
+Usually a short unit with simple theory
+
+Covers Part L, efficiency, environmental responsibilities, sustainability topics
+
+4. Inspection & Testing Theory
+
+Unit code: QELTK3/006
+
+Taught after Design & Environmental Legislation
+
+Includes full I&T sequence, dead tests, live tests, documentation, EIC, fault categories
+
+5. Fault Finding
+
+Unit code: QELTK3/007
+
+Taught last
+
+Includes fault diagnosis, safe isolation, component testing, continuity, insulation faults, RCD faults, short circuits, open circuits
+
+2️⃣ Practical Task Order (Typical)
+During Electrical Science
+
+Transformer basics
+
+Motor principles
+
+Three-phase board identification
+
+During Design
+
+Cable selection tasks
+
+Volt-drop calculations
+
+OSG referencing tasks
+
+During Inspection & Testing
+
+Safe isolation assessment
+
+Full test sequence practice
+
+Completing test sheets
+
+Minor works & EIC practice
+
+During Fault Finding
+
+Identify common faults (open circuit / short / high resistance)
+
+Simulated fault boards
+
+Corrective solutions
+
+3️⃣ Break Pattern (Typical Level 3)
+
+If September intake:
+
+Half-term (Nov)
+
+Christmas break
+
+If February intake:
+
+Half-term only
+
+If May intake:
+
+Summer break (July–Aug)
+
+Level 3 follows the same break structure as Level 2.
+
+4️⃣ Exam Order (Aligned to Teaching Order)
+✔ Electrical Science Exam (first)
+
+30 questions — 60 mins — 60% to pass
+
+✔ Design Exam
+
+25 questions — 45 mins — OSG allowed
+
+✔ Environmental Legislation Exam
+
+20 questions — 40 mins
+
+✔ Inspection & Testing Exam
+
+40 questions — 80 mins
+
+✔ Fault Finding Exam (last)
+
+45 questions — 90 mins
+
+5️⃣ Socrative Room Pathways (Level 3)
+
+(For Study Plan Mode + Socrative Mode)
+
+Science Rooms
+
+L3S1 → L3S2 → L3S3 → L3S4
+(85% required each to progress)
+
+Design Rooms
+
+L3D1 → L3D2 → L3D3
+
+Environment
+
+L3E1 → L3E2
+
+Inspection & Testing Rooms
+
+L3IT1 → L3IT2 → L3IT3 → L3IT4 → L3IT5
+
+Fault Finding Rooms
+
+L3FF1 → L3FF2 → L3FF3 → L3FF4
+
+Use these for revision planning and progression advice.
+
+6️⃣ Key Notes for AI Behaviour
+
+Always follow the unit order above when building Level 3 study plans.
+
+Align upcoming exams with where the student is in the sequence.
+
+Keep explanations simple and practical (Level 3 is harder).
+
+Encourage Socrative practice with the 85% rule.
+
+Tone: supportive, factual, clear — like a senior lecturer.

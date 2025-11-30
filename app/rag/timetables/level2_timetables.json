@@ -1,0 +1,49 @@
+{
+  "level2_timetables": {
+    "evening_group": {
+      "description": "Typical 3-day evening group structure (times may vary by intake).",
+      "days": {
+        "monday": "18:00-21:00",
+        "wednesday": "18:00-21:00",
+        "saturday": "09:00-15:30"
+      }
+    },
+    "tuesday_group": {
+      "description": "Typical single-day day group.",
+      "days": {
+        "tuesday": "10:00-17:00"
+      }
+    },
+    "thursday_group": {
+      "description": "Typical single-day day group.",
+      "days": {
+        "thursday": "10:00-17:00"
+      }
+    }
+  },
+
+  "notes": [
+    "These are example weekly patterns only.",
+    "Teaching days may change depending on centre scheduling.",
+    "Start dates change every year.",
+    "Topic sequence does not change: H&S → Science → Technology → Methods."
+  ],
+
+  "break_patterns": {
+    "september_intake": {
+      "half_term": "early-mid November",
+      "christmas_break": "mid December - early January",
+      "summer_break": "none"
+    },
+    "february_intake": {
+      "half_term": "mid-course",
+      "christmas_break": "none",
+      "summer_break": "none"
+    },
+    "may_intake": {
+      "half_term": "none",
+      "christmas_break": "none",
+      "summer_break": "July-August"
+    }
+  }
+}

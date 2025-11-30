@@ -1,0 +1,64 @@
+LEVEL 2 — TYPICAL WEEKLY TIMETABLE PATTERNS
+
+These represent the common teaching patterns used at LEC for Level 2 groups.
+Exact days may change each intake, depending on centre scheduling.
+
+The topic sequence is always:
+H&S → Science → Technology → Methods
+
+⭐ Example Pattern 1: Evening Group
+
+(Usually 3 days per week)
+
+Monday: 18:00–21:00
+
+Wednesday: 18:00–21:00
+
+Saturday: 09:00–15:30
+
+⭐ Example Pattern 2: Tuesday Day Group
+
+(Usually 1 day per week)
+
+Tuesday: 10:00–17:00
+
+⭐ Example Pattern 3: Thursday Day Group
+
+(Usually 1 day per week)
+
+Thursday: 10:00–17:00
+
+📌 Important Notes
+
+These patterns are examples, not fixed rules.
+
+The centre manager may assign different days (e.g., Friday group, Sunday group, or a new structure).
+
+SiteMind AI must always ask the student:
+
+“Which days do you attend college?”
+
+Start dates change every year, but the teaching order stays the same.
+
+Break Pattern Summary
+September Intake
+
+Half-term break (around November)
+
+Christmas break
+
+No summer break
+
+May Intake
+
+Summer holiday (July–August)
+
+No half-term
+
+No Christmas break
+
+February Intake
+
+Half-term break
+
+No Summer, no Christmas break

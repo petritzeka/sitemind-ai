@@ -1,0 +1,87 @@
+LEVEL 2 — Socrative Progression Rooms
+
+Students must score at least 85% on each Socrative practice exam before they can progress to the next room/exam stage.
+
+Health & Safety (H&S):
+
+L2H1 → must score 85% to unlock L2H2
+
+L2H2 → must score 85% to unlock L2H3
+
+L2H3 → must score 85% to unlock L2H4
+
+L2H4 → must score 85% to unlock L2H5
+
+L2H5 → must score 85% to unlock L2H6
+
+L2H6 → must score 85% to unlock L2H7
+
+Science (Level 2):
+
+L2S1 → 85% → L2S2
+
+L2S2 → 85% → L2S3
+
+L2S3 → 85% → L2S4
+
+L2S4 → 85% → L2S5
+
+L2S5 → 85% → L2S6
+
+L2S6 → 85% → L2S7
+
+Technology (Level 2):
+
+L2T1 → 85% → L2T2
+
+L2T2 → 85% → L2T3
+
+L2T3 → 85% → L2T4
+
+Methods (Level 2):
+
+L2M1 → 85% → L2M2
+
+L2M2 → 85% → L2M3
+
+L2M3 → 85% → L2M4
+
+LEVEL 3 — Socrative Progression Rooms
+
+Science (Level 3):
+
+L3S1 → 85% → L3S2
+
+L3S2 → 85% → L3S3
+
+L3S3 → 85% → L3S4
+
+L3S4 → completes progression
+
+Design:
+
+L3D1 → 85% → L3D2
+
+L3D2 → 85% → L3D3
+
+Environment:
+
+L3E1 → 85% → L3E2
+
+Inspection & Testing:
+
+L3IT1 → 85% → L3IT2
+
+L3IT2 → 85% → L3IT3
+
+L3IT3 → 85% → L3IT4
+
+L3IT4 → 85% → L3IT5
+
+Fault Finding:
+
+L3FF1 → 85% → L3FF2
+
+L3FF2 → 85% → L3FF3
+
+L3FF3 → 85% → L3FF4

@@ -1,0 +1,49 @@
+{
+  "level2": {
+    "H&S": {
+      "rooms": ["L2H1", "L2H2", "L2H3", "L2H4", "L2H5", "L2H6", "L2H7"],
+      "exam": "ELEC2/01"
+    },
+    "Science": {
+      "rooms": ["L2S1", "L2S2", "L2S3", "L2S4", "L2S5", "L2S6", "L2S7"],
+      "exam": "ELEC2/08"
+    },
+    "Technology": {
+      "rooms": ["L2T1", "L2T2", "L2T3", "L2T4"],
+      "exam": "ELEC2/04"
+    },
+    "Methods": {
+      "rooms": ["L2M1", "L2M2", "L2M3", "L2M4"],
+      "exam": "ELEC2/05A"
+    }
+  },
+
+  "level3": {
+    "Science": {
+      "rooms": ["L3S1", "L3S2", "L3S3", "L3S4"],
+      "exam": "ELEC3/08B"
+    },
+    "Design": {
+      "rooms": ["L3D1", "L3D2", "L3D3"],
+      "exam": "ELEC3/04a",
+      "book_allowed": true
+    },
+    "Environmental": {
+      "rooms": ["L3E1", "L3E2"],
+      "exam": "QELTK3/002"
+    },
+    "InspectionTesting": {
+      "rooms": ["L3IT1", "L3IT2", "L3IT3", "L3IT4", "L3IT5"],
+      "exam": "QELTK3/006"
+    },
+    "FaultFinding": {
+      "rooms": ["L3FF1", "L3FF2", "L3FF3", "L3FF4"],
+      "exam": "QELTK3/007"
+    }
+  },
+
+  "progression_rules": {
+    "required_score": 85,
+    "rule_text": "Students must score at least 85% in the current Socrative room to unlock the next room. This rule applies to all Level 2 and Level 3 Socrative rooms before sitting real EAL online exams."
+  }
+}
