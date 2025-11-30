@@ -1,97 +1,67 @@
-# app/services/testing_service.py
+# -------------------------
+#  testing_service.py
+# -------------------------
 
-import json
-import os
+import io
+from uuid import uuid4
+from pathlib import Path
+from PyPDF2 import PdfWriter, PdfReader
 
-"""
-This service extracts values for the test sheet
-from either:
-1) OCR results saved in the user's session
-2) Manual text the user typed
-3) Default placeholders (so PDF never fails)
+# PDF template renderers (page 1 + page 2)
+from app.pdf_templates.fill_template import (
+    render_circuit_details_pdf,
+    render_test_results_pdf
+)
 
-You MUST add OCR saving logic in your OCR step:
-save_ocr_to_session(user_id, data)
-
-And you need coordinates.json to match these keys.
-"""
-
-
-# -----------------------------------------------------------
-# Load any saved OCR data for this user
-# -----------------------------------------------------------
-def load_ocr_session(user_id):
-    path = f"storage/ocr/{user_id}.json"
-
-    if os.path.exists(path):
-        with open(path, "r") as f:
-            return json.load(f)
-
-    return {}  # no OCR data yet
+# Builds the structured test sheet data from user inputs
+from app.services.testing_data_builder import build_test_sheet_data
 
 
-# -----------------------------------------------------------
-# Save OCR data (you call this from your OCR handler)
-# -----------------------------------------------------------
-def save_ocr_to_session(user_id, data):
-    os.makedirs("storage/ocr", exist_ok=True)
-    path = f"storage/ocr/{user_id}.json"
-
-    with open(path, "w") as f:
-        json.dump(data, f, indent=2)
-
-
-# -----------------------------------------------------------
-# Default values to avoid missing fields breaking the PDF
-# -----------------------------------------------------------
-def default_values():
-    d = {
-        "db_reference": "DB1",
-        "location": "Property",
-        "inspector_name": "SiteMind AI",
-        "date": "2025-01-01",
-    }
-
-    # create default empty circuit rows (1–12)
-    for i in range(1, 12 + 1):
-        prefix = f"circuit_{i}"
-        d[f"{prefix}_description"] = f"Circuit {i}"
-        d[f"{prefix}_rating"] = ""
-        d[f"{prefix}_zs"] = ""
-        d[f"{prefix}_cpc"] = ""
-        d[f"{prefix}_type"] = ""
-        d[f"{prefix}_method"] = ""
-        d[f"{prefix}_breaker_type"] = ""
-        d[f"{prefix}_breaker_en"] = ""
-        d[f"{prefix}_points"] = ""
-
-    return d
-
-
-# -----------------------------------------------------------
-# The MAIN function your webhook will call
-# -----------------------------------------------------------
-def extract_values_from_user_or_OCR(user_id):
+def create_test_sheet_pdf(user_id: str, user_payload: dict) -> str:
     """
-    Returns a FULL dictionary of values that the PDF generator
-    will place onto the template.
-
-    Priority:
-      1) OCR fields (strongest)
-      2) (Optional) latest manual overrides from user messages*
-      3) Default values (fallback)
-
-    * Manual overrides can be added later if you want.
+    Generates the final 2-page Test Sheet PDF.
+    Called by whatsapp.py or any endpoint that requests a sheet.
     """
 
-    all_data = default_values()
+    # 1) Convert OCR/manual inputs into correct structure
+    data = build_test_sheet_data(user_id, user_payload)
 
-    # --- Load OCR data if available ---
-    ocr_data = load_ocr_session(user_id)
-    if ocr_data:
-        for k, v in ocr_data.items():
-            all_data[k] = v
+    # 2) Ensure output folder exists
+    output_dir = Path("generated/test_sheets")
+    output_dir.mkdir(parents=True, exist_ok=True)
 
-    # (Optional: load manual overrides here later)
+    # 3) Generate unique filename
+    filename = f"test_sheet_{uuid4().hex}.pdf"
+    output_path = output_dir / filename
 
-    return all_data
+    # 4) Render PAGE 1 (circuit details)
+    page1_stream = render_circuit_details_pdf({
+        "rows": data.get("circuit_details", [])
+    })
+
+    # 5) Render PAGE 2 (test results)
+    page2_stream = render_test_results_pdf({
+        "db_reference": data["test_results"].get("db_reference", ""),
+        "top_values":  data["test_results"].get("top_values", {}),
+        "confirmed":   data["test_results"].get("confirmed", {}),
+        "instruments": data["test_results"].get("instruments", {}),
+        "rows":        data["test_results"].get("rows", []),
+        "bottom":      data["test_results"].get("bottom", {})
+    })
+
+    # 6) Combine pages into final PDF
+    writer = PdfWriter()
+
+    # PAGE 1
+    p1 = PdfReader(page1_stream)
+    writer.add_page(p1.pages[0])
+
+    # PAGE 2
+    p2 = PdfReader(page2_stream)
+    writer.add_page(p2.pages[0])
+
+    # 7) Save final output
+    with open(output_path, "wb") as f:
+        writer.write(f)
+
+    return str(output_path)

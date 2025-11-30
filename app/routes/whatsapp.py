@@ -116,15 +116,19 @@ def whatsapp_webhook():
             data = extract_values_from_user_or_OCR(user_id)
             pdf_path = generate_filled_pdf(data)
 
+            pdf_filename = pdf_path.split("/")[-1]
+
             r = MessagingResponse()
             msg = r.message("Here is your test sheet!")
-            msg.media(pdf_path)
+            msg.media(f"{request.url_root}pdf/{pdf_filename}")
+
             return str(r), 200
 
         except Exception as e:
             r = MessagingResponse()
             r.message(f"⚠️ I couldn't generate the test sheet: {e}")
             return str(r), 200
+
 
     # PAY / SUBSCRIBE
     if any(word in lower for word in [

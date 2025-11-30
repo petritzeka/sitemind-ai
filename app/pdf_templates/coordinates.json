@@ -1,49 +1,76 @@
 {
-  "db_reference": {"page": 1, "x": 127, "y": 756},
-  "location": {"page": 1, "x": 312, "y": 756},
-  "supplied_from": {"page": 1, "x": 510, "y": 756},
-
-  "ocpd_bs_en": {"page": 1, "x": 178, "y": 722},
-  "ocpd_type": {"page": 1, "x": 305, "y": 722},
-  "ocpd_rating": {"page": 1, "x": 440, "y": 722},
-
-  "spd_installed": {"page": 1, "x": 128, "y": 690},
-  "spd_t1": {"page": 1, "x": 212, "y": 690},
-  "spd_t2": {"page": 1, "x": 264, "y": 690},
-  "spd_t3": {"page": 1, "x": 316, "y": 690}
-
-  ,
-  "circuits": {
-    "row_height": 28,
-    "start_y": 637
+  "circuit_details": {
+    "row_height": 18.0,
+    "columns": {
+      "circuit_number": { "x": 30.74, "y": 289.51 },
+      "description": { "x": 111.31, "y": 287.79 },
+      "type_of_wiring": { "x": 281.48, "y": 287.51 },
+      "reference_method": { "x": 315.38, "y": 289.59 },
+      "points_served": { "x": 350.10, "y": 288.18 },
+      "live_mm2": { "x": 386.43, "y": 290.36 },
+      "cpc_mm2": { "x": 430.51, "y": 289.20 },
+      "bs_en": { "x": 478.51, "y": 288.27 },
+      "device_type": { "x": 533.36, "y": 288.62 },
+      "rating_a": { "x": 564.10, "y": 287.10 },
+      "breaking_capacity": { "x": 598.06, "y": 288.78 },
+      "max_zs": { "x": 629.65, "y": 287.20 },
+      "bs_en_2": { "x": 673.93, "y": 292.57 },
+      "rcd_type": { "x": 727.33, "y": 289.95 },
+      "rcd_trip_ma": { "x": 758.92, "y": 289.40 },
+      "rcd_rating": { "x": 794.91, "y": 290.42 }
+    }
   },
 
-  "circuit_fields": {
-    "number":   {"x": 57,  "w": 20},
-    "description": {"x": 85,  "w": 127},
-    "wiring_type": {"x": 226, "w": 57},
-    "ref_method":  {"x": 297, "w": 57},
-    "points":      {"x": 368, "w": 43},
-    "live":        {"x": 425, "w": 43},
-    "cpc":         {"x": 482, "w": 43},
-    "bsen":        {"x": 539, "w": 57},
-    "type":        {"x": 612, "w": 43},
-    "rating":      {"x": 670, "w": 57},
-    "zs_max":      {"x": 740, "w": 57}
-  },
+  "test_results": {
+    "row_height": 18.0,
 
-  "circuit_positions": {
-    "circuit_1":  {"page": 1, "y": 637},
-    "circuit_2":  {"page": 1, "y": 609},
-    "circuit_3":  {"page": 1, "y": 581},
-    "circuit_4":  {"page": 1, "y": 553},
-    "circuit_5":  {"page": 1, "y": 525},
-    "circuit_6":  {"page": 1, "y": 497},
-    "circuit_7":  {"page": 1, "y": 469},
-    "circuit_8":  {"page": 1, "y": 441},
-    "circuit_9":  {"page": 1, "y": 413},
-    "circuit_10": {"page": 1, "y": 385},
-    "circuit_11": {"page": 1, "y": 357},
-    "circuit_12": {"page": 1, "y": 329}
+    "columns": {
+      "circuit_number": { "x": 30.74, "y": 289.50 },
+      "r1": { "x": 78.00, "y": 288.50 },
+      "rn": { "x": 112.00, "y": 288.40 },
+      "r2": { "x": 144.00, "y": 288.70 },
+      "r1_r2": { "x": 181.00, "y": 288.60 },
+      "r2_single": { "x": 215.00, "y": 288.80 },
+      "test_voltage": { "x": 253.00, "y": 289.10 },
+      "ir_ll": { "x": 284.00, "y": 289.00 },
+      "ir_le": { "x": 315.00, "y": 289.20 },
+      "polarity": { "x": 346.00, "y": 289.00 },
+
+      "max_measured": { "x": 435.335, "y": 291.835 },
+      "dis_time": { "x": 467.655, "y": 292.465 },
+      "test_button": { "x": 502.50, "y": 291.44 },
+      "manual_test": { "x": 504.49, "y": 292.58 }
+    },
+
+    "db_reference": { "x": 127.28, "y": 68.365 },
+
+    "top_values": {
+      "ze": { "x": 404.51, "y": 66.825 },
+      "zs": { "x": 406.70, "y": 66.05 },
+      "ipf": { "x": 415.26, "y": 63.33 },
+      "pscc": { "x": 221.45, "y": 65.60 }
+    },
+
+    "confirmed": {
+      "correct_polarity": { "x": 170.49, "y": 90.92 },
+      "phase_sequence": { "x": 227.135, "y": 108.485 },
+      "operational_status": { "x": 267.88, "y": 107.685 },
+      "na": { "x": 195.67, "y": 487.165 }
+    },
+
+    "instruments": {
+      "multifunction": { "x": 649.98, "y": 66.355 },
+      "continuity": { "x": 629.15, "y": 76.04 },
+      "insulation_res": { "x": 642.535, "y": 87.935 },
+      "earth_fault_loop": { "x": 663.21, "y": 98.42 },
+      "rcd": { "x": 602.645, "y": 111.23 },
+      "earth_electrode": { "x": 677.605, "y": 121.015 }
+    },
+
+    "bottom": {
+      "tested_by": { "x": 215.90, "y": 485.72 },
+      "signature": { "x": 187.955, "y": 515.335 },
+      "date": { "x": 422.98, "y": 517.05 }
+    }
   }
 }
