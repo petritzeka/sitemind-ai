@@ -1,0 +1,94 @@
+INTRODUCTION TO BS 7671:2018 ........................................ 4  
+Introduction to Amendment 1:2020 .................................... 7  
+Introduction to Amendment 2:2022 .................................... 8  
+
+PART 1 – SCOPE, OBJECT AND FUNDAMENTAL PRINCIPLES  
+Chapter 11  Scope .................................................. 13  
+Chapter 12  Object and Effects ...................................... 19  
+Chapter 13  Fundamental Principles .................................. 20  
+
+PART 2 – DEFINITIONS ................................................ 27  
+
+PART 3 – ASSESSMENT OF GENERAL CHARACTERISTICS  
+Chapter 31  Purposes, Supplies and Structure ........................ 29  
+Chapter 32  Arrangement of General Characteristics .................. 51  
+Chapter 33  Compatibility ........................................... 55  
+Chapter 34  Environmental Influences ................................ 57  
+Chapter 35  Maintainability ......................................... 58  
+Chapter 36  External Influences ..................................... 59  
+
+PART 4 – PROTECTION FOR SAFETY  
+Chapter 41  Protection Against Electric Shock ....................... 60  
+Chapter 42  Protection Against Thermal Effects ...................... 84  
+Chapter 43  Protection Against Overcurrent .......................... 92  
+Chapter 44  Protection Against Voltage Disturbances ................. 99  
+
+PART 5 – SELECTION AND ERECTION OF EQUIPMENT  
+Chapter 46  Isolation and Switching ................................. 123  
+Chapter 47  Earthing Arrangements and Protective Conductors ......... 129  
+Chapter 52  Selection and Erection of Wiring Systems ................ 139  
+Chapter 53  Protection, Isolation, Switching, Control & Monitoring .. 159  
+Chapter 54  Earthing Arrangements and Protective Conductors ......... 187  
+Chapter 55  Other Equipment ......................................... 207  
+Chapter 56  Safety Services ......................................... 231  
+
+PART 6 – INSPECTION AND TESTING  
+Chapter 61  Initial Verification .................................... 237  
+Chapter 62  Periodic Inspection and Testing ......................... 241  
+
+PART 7 – SPECIAL INSTALLATIONS OR LOCATIONS  
+Section 701  Locations Containing a Bath or Shower .................. 246  
+Section 702  Swimming Pools and Other Basins ........................ 247  
+Section 703  Rooms and Cabins Containing Sauna Heaters .............. 250  
+Section 704  Construction & Demolition Site Installations ........... 252  
+Section 705  Agricultural & Horticultural Premises .................. 257  
+Section 706  Conductive Locations with Restricted Movement .......... 267  
+Section 708  Caravan/Camping Parks and Similar Locations ............ 271  
+Section 709  Marinas & Similar Locations ............................ 275  
+Section 710  Medical Locations ...................................... 277  
+Section 711  Exhibitions, Shows and Stands .......................... 261 (correct order as shown)  
+Section 712  Solar Photovoltaic (PV) Power Supply Systems ........... 284  
+Section 713  Mobile or Transportable Units ......................... 287  
+Section 714  Outdoor Lighting Installations ......................... 289  
+Section 715  Extra-Low Voltage Lighting Installations .............. 291  
+Section 716  Fire Protection Systems ............................... 293  
+Section 717  Mobile/Transportable Units in Caravans & Motor Caravans 296  
+Section 718  Operating and Maintenance Gangways ..................... 299  
+Section 721  Electrical Installations in Caravans & Motor Caravans . 301  
+Section 722  Electric Vehicle Charging Installations ............... 303  
+Section 723  Operating and Maintenance Gangways ..................... 307  
+Section 724  Electrical Connections for Amusement Devices ........... 309  
+Section 729  Operating & Maintenance Gangways for Structures,  
+             Amusement Devices and Booths ........................... 311  
+Section 740  Temporary Electrical Installations  
+             for Structures, Amusement Devices & Stands ............. 314  
+Section 753  Floor and Ceiling Heating Systems ...................... 316  
+Section 754  Heating Systems Embedded in Building Fabric ............. 322  
+
+PART 8 – FUNCTIONAL REQUIREMENTS ..................................... 325  
+
+PART 9 – PROSUMERS’ LOW VOLTAGE ELECTRICAL INSTALLATIONS ............ 335  
+
+APPENDICES  
+Appendix 1   British Standards to which Reference is Made ............ 377  
+Appendix 2   Statutory Regulations & Associated Memoranda ........... 381  
+Appendix 3   Time/Current Characteristics of Protective Devices ...... 383  
+Appendix 4   Current-Carrying Capacity & Voltage Drop for Cables ..... 398  
+Appendix 5   Classification of External Influences ................... 502  
+Appendix 6   Model Forms for Certification & Reporting ............... 517  
+Appendix 7   Harmonised Cable Core Colours .......................... 528  
+Appendix 8   Current-Carrying Capacity & Voltage Drop  
+             for Busbar Trunking ..................................... 533  
+Appendix 9   Power Factor ............................................ 538  
+Appendix 10  Multiple Source, DC and Other Systems ................... 539  
+Appendix 11  Protection of Conductors in Parallel .................... 540  
+Appendix 12  Voltage Disturbances .................................... 541  
+Appendix 13  Prospective Fault Current ............................... 543  
+Appendix 14  Determination of Prospective Fault Current .............. 544  
+Appendix 15  ESQCR Regulations ....................................... 545  
+Appendix 16  Devices for Protection Against Overvoltage .............. 567  
+Appendix 17  Energy Efficiency ....................................... 573  
+
+TABLE OF FIGURES ..................................................... 576  
+TABLE OF TABLES ...................................................... 576  
+INDEX ................................................................. 3 (as shown on page)
