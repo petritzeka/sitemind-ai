@@ -1,4 +1,6 @@
 from __future__ import annotations
+from typing import Any
+from app.services.model_fallback import call_with_fallback
 
 import os
 import sqlite3
@@ -29,7 +31,7 @@ import json
 
 OSG_INDEX = {}
 try:
-    with open("rag/osg/onsite_guide_index.json", "r") as f:
+    with open("app/rag/osg/onsite_guide_index.json", "r") as f:
         OSG_INDEX = json.load(f)
     print("[RAG] Loaded On-Site Guide index successfully.")
 except Exception as e:
@@ -809,21 +811,14 @@ def chat_reply(user_text: str, history: List[Tuple[str, str]], rag_context: str 
     """Main chat helper. If rag_context is empty, automatically search text RAG."""
     if not client:
         return "⚠️ OPENAI_API_KEY not configured. Please try again later."
-    
-    # --- On-Site Guide section lookup ---
-    msg = user_text.lower()
-    if ("section" in msg or "onsite" in msg or "on-site" in msg or 
-        "guide" in msg or "osg" in msg or "what section" in msg or "where is" in msg):
-        
-        results = lookup_osg_section(msg)
-        return "\n".join(results)
-    
+
     # --- Section Explanation Mode ---
     parsed = parse_section_request(user_text)
     if parsed:
         kind, code = parsed
         return explain_osg_section(kind, code)
 
+    # --- RAG lookup ---
     if not rag_context:
         try:
             rag_context = rag_search(user_text)
@@ -831,92 +826,27 @@ def chat_reply(user_text: str, history: List[Tuple[str, str]], rag_context: str 
             print("[RAG] rag_search failed inside chat_reply:", e)
             rag_context = ""
 
-    messages = [{"role": "system", "content": SYSTEM_PROMPT}]
+    # --- Build Messages ---
+    messages = [
+        {"role": "system", "content": SYSTEM_PROMPT}
+    ]
+
     if rag_context:
         messages.append({
             "role": "system",
             "content": "Use the following electrician course/context excerpts if relevant:\n\n" + rag_context
         })
+
     for role, content in history:
         messages.append({"role": role, "content": content})
+
     messages.append({"role": "user", "content": user_text})
 
-
+    # --- AI Call ---
     try:
-        out = client.chat.completions.create(
-            model=OPENAI_MODEL,
-            messages=messages,
-            temperature=0.3,
-        )
-        return (out.choices[0].message.content or "").strip()
+        out: Any = call_with_fallback(messages, temperature=0.3)
+        return (out.choices[0].message["content"] or "").strip()  # type: ignore
+
     except Exception as e:
-        msg = str(e)
-        if "insufficient permissions" in msg.lower() or "missing scopes" in msg.lower():
-            return ("⚠️ OpenAI key lacks permissions for this model. "
-                    "Use a project-scoped key with `model.request` or switch to a non-restricted key.")
         print("[AI] chat error:", e)
         return "⚠️ I had trouble generating a reply. Please try again."
-
-
-def _twilio_fetch_bytes(url: str) -> bytes:
-    """Download Twilio-protected media with basic auth (SID/TOKEN)."""
-    sid = os.getenv("TWILIO_ACCOUNT_SID", "")
-    tok = os.getenv("TWILIO_AUTH_TOKEN", "")
-    if not sid or not tok:
-        raise RuntimeError("TWILIO_ACCOUNT_SID/TWILIO_AUTH_TOKEN not set")
-    resp = requests.get(url, auth=(sid, tok), timeout=30)
-    resp.raise_for_status()
-    return resp.content
-
-
-def vision_answer(image_url: str, prompt_text: str) -> str:
-    """Fetch Twilio media and send to OpenAI Vision as base64 data URL."""
-    if not client:
-        return "⚠️ OPENAI_API_KEY not configured."
-    try:
-        image_bytes = _twilio_fetch_bytes(image_url)
-    except Exception as e:
-        print("[AI] vision fetch error:", e)
-        return f"⚠️ Couldn't fetch image. Check Twilio creds. ({e})"
-
-    try:
-        b64 = base64.b64encode(image_bytes).decode("ascii")
-        data_url = f"data:image/jpeg;base64,{b64}"
-        out = client.chat.completions.create(
-            model=OPENAI_MODEL,
-            messages=[
-                {"role": "system", "content": SYSTEM_PROMPT},
-                {
-                    "role": "user",
-                    "content": [
-                        {"type": "text", "text": prompt_text},
-                        {"type": "image_url", "image_url": {"url": data_url}},
-                    ],
-                },
-            ],
-            temperature=0.2,
-        )
-        return (out.choices[0].message.content or "").strip()
-    except Exception as e:
-        print("[AI] vision error:", e)
-        return "⚠️ I couldn’t read that image just now. Try again."
-
-
-def transcribe_and_answer(audio_bytes: bytes) -> str:
-    """Handle WhatsApp voice notes with Whisper + normal chat flow."""
-    if not client:
-        return "⚠️ OPENAI_API_KEY not configured."
-    try:
-        tmp = Path("tmp_media")
-        tmp.mkdir(exist_ok=True)
-        p = tmp / "voice.ogg"
-        p.write_bytes(audio_bytes)
-        with p.open("rb") as f:
-            t = client.audio.transcriptions.create(model="whisper-1", file=f)
-        text = (t.text or "").strip()
-        if not text:
-            return "⚠️ I couldn’t hear anything clearly. Please try again."
-        return chat_reply(text, [], "")
-    except Exception as e:
-        print("[AI] transcribe error:", e)
-        return "⚠️ I couldn’t process that voice note. Please try a text message."
