@@ -1,8 +1,10 @@
 # app/routes/whatsapp.py
+
 from flask import Blueprint, current_app, request, abort
 from twilio.twiml.messaging_response import MessagingResponse
 from twilio.request_validator import RequestValidator
-import os, requests
+import os
+import requests
 
 from app.services.ai_service import (
     utc_now_ts, append_message, fetch_history, check_and_count,
@@ -10,180 +12,202 @@ from app.services.ai_service import (
     build_or_load_vectorstore
 )
 
-WHATSAPP_WEBHOOK_PATH = os.getenv("WHATSAPP_WEBHOOK_PATH", "/whatsapp")
+from app.services.testing_service import create_test_sheet_pdf
+
 bp = Blueprint("whatsapp", __name__)
+WHATSAPP_WEBHOOK_PATH = os.getenv("WHATSAPP_WEBHOOK_PATH", "/whatsapp")
 
-# Cache vectorstore
-_VS = None
+# --------------------------------------------------
+# IN-MEMORY TEST SHEET SESSIONS (MVP)
+# --------------------------------------------------
+TEST_SHEET_SESSIONS = {}
+
+REQUIRED_CIRCUIT_FIELDS = [
+    ("circuit_number", "What is the circuit number? (e.g. 1, 2)"),
+    ("description", "What is the circuit description? (e.g. Sockets, Lighting)"),
+    ("type_of_wiring", "What type of wiring is used? (e.g. T&E, SWA)"),
+    ("reference_method", "What is the reference method? (e.g. A, B, C)"),
+    ("points_served", "How many points are served by this circuit?"),
+    ("live_mm2", "What is the live conductor size in mm²? (e.g. 2.5)"),
+    ("cpc_mm2", "What is the CPC size in mm²? (e.g. 1.5)"),
+    ("device_type", "What is the protective device type? (e.g. MCB, RCBO)"),
+    ("rating_a", "What is the device rating in amps? (e.g. 32)"),
+]
+
+def get_next_missing_field(session: dict):
+    for field, question in REQUIRED_CIRCUIT_FIELDS:
+        if not session.get(field):
+            return field, question
+    return None, None
 
 
-def _validate_signature() -> bool:
+def validate_input(field: str, value: str) -> bool:
+    numeric_fields = {"points_served", "live_mm2", "cpc_mm2", "rating_a"}
+    if field in numeric_fields:
+        try:
+            float(value)
+            return True
+        except ValueError:
+            return False
+    return True
+
+
+def _validate_signature():
     if not current_app.config.get("ENFORCE_TWILIO_SIGNATURE", False):
         return True
     validator = RequestValidator(current_app.config["TWILIO_AUTH_TOKEN"])
-    sig = request.headers.get("X-Twilio-Signature", "")
-    url = request.url
-    data = request.form.to_dict()
-    return validator.validate(url, data, sig)
+    return validator.validate(
+        request.url,
+        request.form.to_dict(),
+        request.headers.get("X-Twilio-Signature", "")
+    )
 
 
-def _onboarding() -> str:
+def onboarding_message():
     return (
-        "Welcome to SiteMind AI ⚡️\n"
-        "Your 24/7 AI Electrician Assistant — here to help you learn, plan, and work smarter.\n\n"
-        "Ask anything or try:\n"
-        "• study plan\n• quick quiz\n• explain a topic\n• help\n\n"
-        "🤖 Note: AI can make mistakes — always double-check critical details.\n"
-        f"🗓 Daily free limit: {os.getenv('FREE_TRIAL_DAILY_CAP', '5')} messages/day\n"
-        f"🎓 Free trial: {current_app.config['FREE_TRIAL_DAYS']} days\n"
-        f"🔒 Privacy: {current_app.config['PRIVACY_URL']}\n"
-        f"📄 Terms: {current_app.config['TERMS_URL']}\n"
-        f"💳 Subscribe: {current_app.config['SUBSCRIBE_URL']}"
+        "Welcome to SiteMind AI ⚡️\n\n"
+        "Your AI electrician assistant on WhatsApp.\n\n"
+        "You can:\n"
+        "• Ask electrical questions\n"
+        "• Upload photos of distribution boards\n"
+        "• Generate test sheets\n\n"
+        "Type *generate test sheet* to begin."
     )
 
 
 @bp.post(WHATSAPP_WEBHOOK_PATH)
 def whatsapp_webhook():
-    # --- Security ---
     if not _validate_signature():
-        abort(403, "Invalid Twilio signature")
+        abort(403)
 
-    # --- Parse ---
     body = (request.form.get("Body") or "").strip()
+    lower = body.lower()
     from_number = request.form.get("From", "")
     user_id = from_number or "unknown"
-    num_media = int(request.form.get("NumMedia", "0"))
     now_ts = utc_now_ts()
 
-    # --- Free trial guard ---
-    allowed, block_msg = check_and_count(
+    # -----------------------------------
+    # FREE TRIAL / RATE LIMIT
+    # -----------------------------------
+    allowed, msg = check_and_count(
         user_id=user_id,
         now_ts=now_ts,
         free_days=int(current_app.config["FREE_TRIAL_DAYS"]),
         msg_cap=int(current_app.config.get("FREE_TRIAL_MESSAGE_CREDITS", 50)),
         subscribe_url=current_app.config["SUBSCRIBE_URL"],
     )
+
     if not allowed:
         r = MessagingResponse()
-        r.message(block_msg)
+        r.message(msg)
         return str(r), 200
 
-    # === 1) MEDIA FIRST ===
+    # -----------------------------------
+    # CANCEL / RESET TEST SHEET
+    # -----------------------------------
+    if lower in {"cancel", "restart", "stop test sheet"}:
+        TEST_SHEET_SESSIONS.pop(user_id, None)
+        r = MessagingResponse()
+        r.message("❌ Test sheet cancelled. Type *generate test sheet* to start again.")
+        return str(r), 200
+
+    # -----------------------------------
+    # CONTINUE ACTIVE TEST SHEET SESSION
+    # -----------------------------------
+    if user_id in TEST_SHEET_SESSIONS and body:
+        session = TEST_SHEET_SESSIONS[user_id]
+        field, question = get_next_missing_field(session)
+
+        if field:
+            if not validate_input(field, body):
+                r = MessagingResponse()
+                r.message("⚠️ Please enter a valid number.")
+                return str(r), 200
+
+            session[field] = body.strip()
+            next_field, next_question = get_next_missing_field(session)
+
+            r = MessagingResponse()
+            if next_field:
+                r.message(next_question)
+            else:
+                r.message("✅ All details captured. Generating test sheet…")
+            return str(r), 200
+
+    # -----------------------------------
+    # START TEST SHEET FLOW
+    # -----------------------------------
+    if "generate test sheet" in lower or lower == "test sheet":
+        TEST_SHEET_SESSIONS[user_id] = {}
+        _, question = get_next_missing_field(TEST_SHEET_SESSIONS[user_id])
+        r = MessagingResponse()
+        r.message(question)
+        return str(r), 200
+
+    # -----------------------------------
+    # FINAL GENERATION (ALL FIELDS READY)
+    # -----------------------------------
+    if user_id in TEST_SHEET_SESSIONS:
+        session = TEST_SHEET_SESSIONS[user_id]
+        field, _ = get_next_missing_field(session)
+
+        if not field:
+            payload = {
+                "circuit_details": [session],
+                "test_results": {}
+            }
+
+            pdf_path = create_test_sheet_pdf(user_id, payload)
+            filename = pdf_path.split("/")[-1]
+
+            r = MessagingResponse()
+            msg = r.message("📄 Your test sheet is ready.")
+            msg.media(f"{request.url_root}pdf/{filename}")
+
+            TEST_SHEET_SESSIONS.pop(user_id, None)
+            return str(r), 200
+
+    # -----------------------------------
+    # MEDIA HANDLING
+    # -----------------------------------
+    num_media = int(request.form.get("NumMedia", "0"))
     if num_media > 0:
         ct = request.form.get("MediaContentType0", "")
         url = request.form.get("MediaUrl0", "")
 
         try:
             if ct.startswith("image/"):
-                reply = vision_answer(url, body or "Describe what you need help with.")
+                reply = vision_answer(url, body or "Describe the issue.")
 
-            elif ct.startswith("audio/") or ct in {"application/ogg", "audio/ogg", "audio/webm"}:
+            elif ct.startswith("audio/"):
                 sid = current_app.config["TWILIO_ACCOUNT_SID"]
                 tok = current_app.config["TWILIO_AUTH_TOKEN"]
-                resp = requests.get(url, auth=(sid, tok), timeout=30)
-                resp.raise_for_status()
+                resp = requests.get(url, auth=(sid, tok))
                 reply = transcribe_and_answer(resp.content)
-
             else:
-                reply = f"Got your file ({ct}). I support images & voice notes."
+                reply = "Unsupported file type."
 
         except Exception as e:
-            reply = f"⚠️ I couldn't process that media: {e}"
-
-        append_message(user_id, "user", body or "(media)", now_ts)
-        append_message(user_id, "assistant", reply, now_ts)
+            reply = f"⚠️ Error processing media: {e}"
 
         r = MessagingResponse()
         r.message(reply)
         return str(r), 200
 
-    # === 2) TEXT TOO LONG ===
-    cap = int(current_app.config.get("WORD_CAP", 200))
-    if body and len(body.split()) > cap:
-        r = MessagingResponse()
-        r.message(f"⚠️ Message too long ({len(body.split())} words). Limit is {cap}.")
-        return str(r), 200
-
-    # === 3) KEYWORD SHORTCUTS ===
-    lower = body.lower().strip()
-
-    # === TEST SHEET GENERATOR ===
-    if "generate test sheet" in lower or "test sheet" in lower:
-        try:
-            from app.pdf_templates.fill_template import generate_filled_pdf
-            from app.services.testing_service import extract_values_from_user_or_OCR
-
-            data = extract_values_from_user_or_OCR(user_id)
-            pdf_path = generate_filled_pdf(data)
-
-            pdf_filename = pdf_path.split("/")[-1]
-
-            r = MessagingResponse()
-            msg = r.message("Here is your test sheet!")
-            msg.media(f"{request.url_root}pdf/{pdf_filename}")
-
-            return str(r), 200
-
-        except Exception as e:
-            r = MessagingResponse()
-            r.message(f"⚠️ I couldn't generate the test sheet: {e}")
-            return str(r), 200
-
-
-    # PAY / SUBSCRIBE
-    if any(word in lower for word in [
-        "subscribe", "upgrade", "pay", "start plan", "join",
-        "membership", "monthly", "yearly", "price"
-    ]):
-        monthly = current_app.config.get("SUBSCRIBE_MONTHLY_URL")
-        annual = current_app.config.get("SUBSCRIBE_ANNUAL_URL")
-        r = MessagingResponse()
-        r.message(f"Choose a plan:\n£8.99/month → {monthly}\n£79.99/year → {annual}")
-        return str(r), 200
-
-        # CANCEL / MANAGE SUBSCRIPTION
-    if any(word in lower for word in [
-        "cancel", "unsubscribe", "stop", "end", "manage",
-        "billing", "account", "payment", "refund", "subscription"
-    ]):
-        portal = current_app.config.get("STRIPE_PORTAL_URL")
-        r = MessagingResponse()
-        r.message(
-            "Your SiteMind AI free trial has ended.\n\n"
-            "Activate your subscription to continue:\n"
-            f"{portal}\n\n"
-            "Instant access to:\n"
-            "• Test sheets PDF\n"
-            "• Distribution board OCR\n"
-            "• Level 2 & Level 3 Tutor Mode\n"
-            "• Quotes & invoices\n"
-            "• Photo analysis\n"
-            "• More coming every week"
-        )
-        return str(r), 200
-
-
-    # === 4) VECTORSTORE (RAG) ===
+    # -----------------------------------
+    # NORMAL AI CHAT (RAG + GPT)
+    # -----------------------------------
     global _VS
-    if _VS is None:
+    if "_VS" not in globals() or _VS is None:
         _VS = build_or_load_vectorstore()
 
     history = fetch_history(user_id, limit=10)
     ctx = retrieve_context(_VS, body, k=4)
 
-    # === ONBOARDING ===
-    if not history and num_media == 0 and body:
-        reply = _onboarding()
-        append_message(user_id, "assistant", reply, now_ts)
-        r = MessagingResponse()
-        r.message(reply)
-        return str(r), 200
-
-    # === GPT FALLBACK ===
-    try:
+    if not history:
+        reply = onboarding_message()
+    else:
         reply = chat_reply(body, history, ctx)
-    except Exception as e:
-        reply = f"⚠️ Error: {e}"
 
     append_message(user_id, "user", body, now_ts)
     append_message(user_id, "assistant", reply, utc_now_ts())
