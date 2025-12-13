@@ -4,11 +4,14 @@ from flask import Blueprint, current_app, request, abort
 from twilio.twiml.messaging_response import MessagingResponse
 from twilio.request_validator import RequestValidator
 import os
-import requests
 
 from app.services.ai_service import (
-    utc_now_ts, append_message, fetch_history, check_and_count,
-    retrieve_context, chat_reply, vision_answer, transcribe_and_answer,
+    utc_now_ts,
+    append_message,
+    fetch_history,
+    check_and_count,
+    retrieve_context,
+    chat_reply,
     build_or_load_vectorstore
 )
 
@@ -17,9 +20,9 @@ from app.services.testing_service import create_test_sheet_pdf
 bp = Blueprint("whatsapp", __name__)
 WHATSAPP_WEBHOOK_PATH = os.getenv("WHATSAPP_WEBHOOK_PATH", "/whatsapp")
 
-# --------------------------------------------------
-# IN-MEMORY TEST SHEET SESSIONS (MVP)
-# --------------------------------------------------
+# -------------------------------------------------------------------
+# In-memory test sheet sessions (MVP only – no DB)
+# -------------------------------------------------------------------
 TEST_SHEET_SESSIONS = {}
 
 REQUIRED_CIRCUIT_FIELDS = [
@@ -55,6 +58,7 @@ def validate_input(field: str, value: str) -> bool:
 def _validate_signature():
     if not current_app.config.get("ENFORCE_TWILIO_SIGNATURE", False):
         return True
+
     validator = RequestValidator(current_app.config["TWILIO_AUTH_TOKEN"])
     return validator.validate(
         request.url,
@@ -69,7 +73,7 @@ def onboarding_message():
         "Your AI electrician assistant on WhatsApp.\n\n"
         "You can:\n"
         "• Ask electrical questions\n"
-        "• Upload photos of distribution boards\n"
+        "• Study for Level 2 / Level 3\n"
         "• Generate test sheets\n\n"
         "Type *generate test sheet* to begin."
     )
@@ -86,9 +90,9 @@ def whatsapp_webhook():
     user_id = from_number or "unknown"
     now_ts = utc_now_ts()
 
-    # -----------------------------------
-    # FREE TRIAL / RATE LIMIT
-    # -----------------------------------
+    # ---------------------------------------------------------------
+    # Free trial / rate limit
+    # ---------------------------------------------------------------
     allowed, msg = check_and_count(
         user_id=user_id,
         now_ts=now_ts,
@@ -102,21 +106,21 @@ def whatsapp_webhook():
         r.message(msg)
         return str(r), 200
 
-    # -----------------------------------
-    # CANCEL / RESET TEST SHEET
-    # -----------------------------------
+    # ---------------------------------------------------------------
+    # Cancel / restart test sheet
+    # ---------------------------------------------------------------
     if lower in {"cancel", "restart", "stop test sheet"}:
         TEST_SHEET_SESSIONS.pop(user_id, None)
         r = MessagingResponse()
         r.message("❌ Test sheet cancelled. Type *generate test sheet* to start again.")
         return str(r), 200
 
-    # -----------------------------------
-    # CONTINUE ACTIVE TEST SHEET SESSION
-    # -----------------------------------
+    # ---------------------------------------------------------------
+    # Continue active test sheet session
+    # ---------------------------------------------------------------
     if user_id in TEST_SHEET_SESSIONS and body:
         session = TEST_SHEET_SESSIONS[user_id]
-        field, question = get_next_missing_field(session)
+        field, _ = get_next_missing_field(session)
 
         if field:
             if not validate_input(field, body):
@@ -134,9 +138,9 @@ def whatsapp_webhook():
                 r.message("✅ All details captured. Generating test sheet…")
             return str(r), 200
 
-    # -----------------------------------
-    # START TEST SHEET FLOW
-    # -----------------------------------
+    # ---------------------------------------------------------------
+    # Start test sheet flow
+    # ---------------------------------------------------------------
     if "generate test sheet" in lower or lower == "test sheet":
         TEST_SHEET_SESSIONS[user_id] = {}
         _, question = get_next_missing_field(TEST_SHEET_SESSIONS[user_id])
@@ -144,9 +148,9 @@ def whatsapp_webhook():
         r.message(question)
         return str(r), 200
 
-    # -----------------------------------
-    # FINAL GENERATION (ALL FIELDS READY)
-    # -----------------------------------
+    # ---------------------------------------------------------------
+    # Generate test sheet when complete
+    # ---------------------------------------------------------------
     if user_id in TEST_SHEET_SESSIONS:
         session = TEST_SHEET_SESSIONS[user_id]
         field, _ = get_next_missing_field(session)
@@ -167,36 +171,21 @@ def whatsapp_webhook():
             TEST_SHEET_SESSIONS.pop(user_id, None)
             return str(r), 200
 
-    # -----------------------------------
-    # MEDIA HANDLING
-    # -----------------------------------
+    # ---------------------------------------------------------------
+    # Media handling (disabled for MVP)
+    # ---------------------------------------------------------------
     num_media = int(request.form.get("NumMedia", "0"))
     if num_media > 0:
-        ct = request.form.get("MediaContentType0", "")
-        url = request.form.get("MediaUrl0", "")
-
-        try:
-            if ct.startswith("image/"):
-                reply = vision_answer(url, body or "Describe the issue.")
-
-            elif ct.startswith("audio/"):
-                sid = current_app.config["TWILIO_ACCOUNT_SID"]
-                tok = current_app.config["TWILIO_AUTH_TOKEN"]
-                resp = requests.get(url, auth=(sid, tok))
-                reply = transcribe_and_answer(resp.content)
-            else:
-                reply = "Unsupported file type."
-
-        except Exception as e:
-            reply = f"⚠️ Error processing media: {e}"
-
         r = MessagingResponse()
-        r.message(reply)
+        r.message(
+            "📎 Media analysis is coming soon.\n\n"
+            "For now, you can generate test sheets or ask electrical questions."
+        )
         return str(r), 200
 
-    # -----------------------------------
-    # NORMAL AI CHAT (RAG + GPT)
-    # -----------------------------------
+    # ---------------------------------------------------------------
+    # Normal AI chat (RAG + GPT)
+    # ---------------------------------------------------------------
     global _VS
     if "_VS" not in globals() or _VS is None:
         _VS = build_or_load_vectorstore()

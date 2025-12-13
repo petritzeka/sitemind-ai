@@ -808,25 +808,17 @@ Stay consistent, safety-driven, clear and professional with light humour.
 """.strip()
 
 def chat_reply(user_text: str, history: List[Tuple[str, str]], rag_context: str = "") -> str:
-    """Main chat helper. If rag_context is empty, automatically search text RAG."""
     if not client:
-        return "⚠️ OPENAI_API_KEY not configured. Please try again later."
+        return "⚠️ OPENAI_API_KEY not configured."
 
-    # --- Section Explanation Mode ---
     parsed = parse_section_request(user_text)
     if parsed:
         kind, code = parsed
         return explain_osg_section(kind, code)
 
-    # --- RAG lookup ---
     if not rag_context:
-        try:
-            rag_context = rag_search(user_text)
-        except Exception as e:
-            print("[RAG] rag_search failed inside chat_reply:", e)
-            rag_context = ""
+        rag_context = rag_search(user_text)
 
-    # --- Build Messages ---
     messages = [
         {"role": "system", "content": SYSTEM_PROMPT}
     ]
@@ -834,7 +826,7 @@ def chat_reply(user_text: str, history: List[Tuple[str, str]], rag_context: str 
     if rag_context:
         messages.append({
             "role": "system",
-            "content": "Use the following electrician course/context excerpts if relevant:\n\n" + rag_context
+            "content": "Use the following electrician context if relevant:\n\n" + rag_context
         })
 
     for role, content in history:
@@ -842,11 +834,22 @@ def chat_reply(user_text: str, history: List[Tuple[str, str]], rag_context: str 
 
     messages.append({"role": "user", "content": user_text})
 
-    # --- AI Call ---
     try:
-        out: Any = call_with_fallback(messages, temperature=0.3)
-        return (out.choices[0].message["content"] or "").strip()  # type: ignore
-
+        reply_text = call_with_fallback(messages, temperature=0.3)
+        return reply_text.strip()
     except Exception as e:
         print("[AI] chat error:", e)
         return "⚠️ I had trouble generating a reply. Please try again."
+
+
+def vision_answer(image_url: str, prompt: str) -> str:
+    """
+    Placeholder for image analysis.
+    Will be upgraded later to Vision OCR.
+    """
+    return (
+        "📸 Image received.\n"
+        "Image analysis is not fully enabled yet.\n"
+        "You can still generate a test sheet or ask questions."
+    )
+
