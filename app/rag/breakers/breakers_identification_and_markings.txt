@@ -1,0 +1,163 @@
+TITLE: Circuit Breakers – Identification, Ratings, and Markings (UK)
+
+PURPOSE:
+This document enables SiteMind AI to identify circuit breakers from photos or markings
+and explain their ratings clearly for UK electrical students and electricians.
+
+Aligned with:
+- BS 7671
+- IEC 60898, 61008, 61009, 60947
+- EAL Level 2 & Level 3 Electrical Installations
+
+---
+
+SECTION 1: BREAKER TYPES
+
+MCB – Miniature Circuit Breaker  
+Protects against overload and short circuit only.
+
+RCD – Residual Current Device  
+Protects against earth leakage only.
+
+RCBO – Combined MCB + RCD  
+Provides overcurrent and earth leakage protection.
+
+MCCB – Moulded Case Circuit Breaker  
+Used in commercial and industrial installations.
+
+AFDD – Arc Fault Detection Device  
+Detects dangerous arc faults.
+
+---
+
+SECTION 2: READING MARKINGS
+
+Example marking: C40
+
+Interpretation:
+- Letter = Tripping curve
+- Number = Rated current (amps)
+
+C40 means:
+- Type C
+- 40 A rated current
+
+---
+
+SECTION 3: TRIPPING CURVES
+
+Type B:
+- Trips at 3–5 × In
+- Used for lighting and domestic socket circuits
+
+Type C:
+- Trips at 5–10 × In
+- Used for circuits with moderate inrush current (motors, fluorescent lighting)
+
+Type D:
+- Trips at 10–20 × In
+- Used for high inrush current (industrial use)
+
+---
+
+SECTION 4: RATED CURRENT (In)
+
+The maximum current the breaker can carry continuously.
+
+Examples:
+- B32 → 32 A
+- C6 → 6 A
+- C40 → 40 A
+
+Design rule:
+Ib ≤ In ≤ Iz
+
+---
+
+SECTION 5: BREAKING CAPACITY (kA)
+
+Indicates the maximum fault current the breaker can safely interrupt.
+
+Common values:
+- 4.5 kA
+- 6 kA
+- 10 kA
+
+UK guidance:
+- 6 kA is standard for modern domestic installations
+- 4.5 kA found in older boards
+
+---
+
+SECTION 6: OPERATING VOLTAGE
+
+Common markings:
+- 230V~
+- 230/400V~
+
+The ~ symbol indicates AC supply.
+
+---
+
+SECTION 7: ENERGY LIMITING CLASS
+
+Class 1 / 2 / 3
+
+Class 3 offers the highest level of energy limitation
+and is common in modern domestic breakers.
+
+---
+
+SECTION 8: RCD / RCBO RESIDUAL CURRENT
+
+Common values:
+- 30 mA → personal protection
+- 100 mA → fire protection
+- 300 mA → fire protection (industrial)
+
+Time delay:
+- S-type = selective (delayed)
+
+---
+
+SECTION 9: STANDARDS
+
+IEC 60898 → Domestic MCBs  
+IEC 61008 → RCDs  
+IEC 61009 → RCBOs  
+IEC 60947 → Industrial MCCBs
+
+---
+
+SECTION 10: HOW SITE MIND AI SHOULD RESPOND
+
+When shown a breaker:
+1. Identify device type
+2. Extract markings
+3. Translate into plain English
+4. Explain common use
+5. Add an exam or site tip
+
+If markings are unclear, ask for a clearer photo.
+
+---
+
+SECTION 11: COMMON STUDENT ERRORS
+
+- Confusing B32 with 32 kA
+- Thinking RCDs protect against overload
+- Ignoring breaking capacity in exams
+
+---
+
+SECTION 12: EXAM TIP
+
+In Level 2 exams, always identify:
+- Breaker type
+- Rated current
+- Tripping curve
+- Breaking capacity
+
+These usually carry the marks.
+
+END OF DOCUMENT
