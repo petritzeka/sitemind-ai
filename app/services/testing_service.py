@@ -1,10 +1,12 @@
 # app/services/testing_service.py
 
-from uuid import uuid4
-from pathlib import Path
 from datetime import date
 
-from app.pdf_templates.fill_template import generate_test_sheet_pdf
+from app.pdf_templates.fill_template import (
+    generate_test_sheet_pdf,
+    get_empty_test_sheet_pdf,
+)
+from app.services.monitoring import log_event, user_hash
 
 
 def build_test_data(user_payload: dict) -> dict:
@@ -13,40 +15,54 @@ def build_test_data(user_payload: dict) -> dict:
     user_payload comes from WhatsApp state / OCR / manual answers.
     """
 
+    flat = {}
+    if isinstance(user_payload, dict):
+        flat.update(user_payload)
+
+        circuit_details = user_payload.get("circuit_details")
+        if isinstance(circuit_details, list) and circuit_details:
+            flat.update(circuit_details[0] or {})
+        elif isinstance(circuit_details, dict):
+            flat.update(circuit_details)
+
+        test_results = user_payload.get("test_results")
+        if isinstance(test_results, dict):
+            flat.update(test_results)
+
     return {
         # Circuit details
-        "circuit_number": user_payload.get("circuit_number"),
-        "description": user_payload.get("description"),
-        "type_of_wiring": user_payload.get("type_of_wiring"),
-        "reference_method": user_payload.get("reference_method"),
-        "points_served": user_payload.get("points_served"),
-        "live_mm2": user_payload.get("live_mm2"),
-        "cpc_mm2": user_payload.get("cpc_mm2"),
-        "device_type": user_payload.get("device_type"),
-        "rating_a": user_payload.get("rating_a"),
-        "breaking_capacity": user_payload.get("breaking_capacity"),
-        "max_zs": user_payload.get("max_zs"),
-        "rcd_type": user_payload.get("rcd_type"),
-        "rcd_trip_ma": user_payload.get("rcd_trip_ma"),
+        "circuit_number": flat.get("circuit_number"),
+        "description": flat.get("description"),
+        "type_of_wiring": flat.get("type_of_wiring"),
+        "reference_method": flat.get("reference_method"),
+        "points_served": flat.get("points_served"),
+        "live_mm2": flat.get("live_mm2"),
+        "cpc_mm2": flat.get("cpc_mm2"),
+        "device_type": flat.get("device_type"),
+        "rating_a": flat.get("rating_a"),
+        "breaking_capacity": flat.get("breaking_capacity"),
+        "max_zs": flat.get("max_zs"),
+        "rcd_type": flat.get("rcd_type"),
+        "rcd_trip_ma": flat.get("rcd_trip_ma"),
 
         # Dead tests
-        "r1": user_payload.get("r1"),
-        "r2": user_payload.get("r2"),
-        "r1_r2": user_payload.get("r1_r2"),
-        "test_voltage": user_payload.get("test_voltage"),
-        "ir_ll": user_payload.get("ir_ll"),
-        "ir_le": user_payload.get("ir_le"),
-        "polarity_dead": user_payload.get("polarity_dead"),
+        "r1": flat.get("r1"),
+        "r2": flat.get("r2"),
+        "r1_r2": flat.get("r1_r2"),
+        "test_voltage": flat.get("test_voltage"),
+        "ir_ll": flat.get("ir_ll"),
+        "ir_le": flat.get("ir_le"),
+        "polarity_dead": flat.get("polarity_dead"),
 
         # Live tests
-        "ze": user_payload.get("ze"),
-        "zs": user_payload.get("zs"),
-        "ipf": user_payload.get("ipf"),
-        "pscc": user_payload.get("pscc"),
+        "ze": flat.get("ze"),
+        "zs": flat.get("zs"),
+        "ipf": flat.get("ipf"),
+        "pscc": flat.get("pscc"),
 
         # Footer
-        "tested_by": user_payload.get("tested_by", "SiteMind AI"),
-        "date": user_payload.get("date", date.today().strftime("%d/%m/%Y")),
+        "tested_by": flat.get("tested_by", "SiteMind AI"),
+        "date": flat.get("date", date.today().strftime("%d/%m/%Y")),
     }
 
 
@@ -55,18 +71,16 @@ def create_test_sheet_pdf(user_id: str, user_payload: dict) -> str:
     Generates the final Test Sheet PDF.
     Called by whatsapp.py when user says 'generate test sheet'.
     """
+    try:
+        # MVP: return blank sheet only (no autofill)
+        return get_empty_test_sheet_pdf()
+    except Exception as e:
+        log_event("error", "PDF generation failed", {"err": str(e), "user": user_hash(user_id)})
+        return get_empty_test_sheet_pdf()
 
-    # 1) Build flat test_data
-    test_data = build_test_data(user_payload)
 
-    # 2) Ensure output folder exists
-    output_dir = Path("generated/test_sheets")
-    output_dir.mkdir(parents=True, exist_ok=True)
-
-    # 3) Generate PDF
-    filename = f"test_sheet_{uuid4().hex}.pdf"
-    output_path = output_dir / filename
-
-    pdf_path = generate_test_sheet_pdf(test_data)
-
-    return pdf_path
+def create_empty_test_sheet_pdf() -> str:
+    """
+    Return the blank test results PDF (no overlay applied).
+    """
+    return get_empty_test_sheet_pdf()

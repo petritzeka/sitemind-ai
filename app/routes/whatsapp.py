@@ -4,18 +4,25 @@ from flask import Blueprint, current_app, request, abort
 from twilio.twiml.messaging_response import MessagingResponse
 from twilio.request_validator import RequestValidator
 import os
+from datetime import datetime
+from zoneinfo import ZoneInfo
 
 from app.services.ai_service import (
     utc_now_ts,
     append_message,
     fetch_history,
     check_and_count,
+    check_image_caps,
     retrieve_context,
     chat_reply,
-    build_or_load_vectorstore
+    build_or_load_vectorstore,
+    vision_answer,
 )
 
-from app.services.testing_service import create_test_sheet_pdf
+from app.services.testing_service import (
+    create_empty_test_sheet_pdf,
+    create_test_sheet_pdf,
+)
 
 bp = Blueprint("whatsapp", __name__)
 WHATSAPP_WEBHOOK_PATH = os.getenv("WHATSAPP_WEBHOOK_PATH", "/whatsapp")
@@ -36,6 +43,30 @@ REQUIRED_CIRCUIT_FIELDS = [
     ("device_type", "What is the protective device type? (e.g. MCB, RCBO)"),
     ("rating_a", "What is the device rating in amps? (e.g. 32)"),
 ]
+MAX_IMAGES_PER_MESSAGE = 5
+
+
+def word_count(text: str) -> int:
+    return len((text or "").split())
+
+
+def night_mode_active() -> bool:
+    if not current_app.config.get("ENABLE_NIGHT_MODE", True):
+        return False
+    now_uk = datetime.now(ZoneInfo("Europe/London"))
+    return 2 <= now_uk.hour < 6
+
+
+def classify_image_intent(text: str) -> str:
+    lower = (text or "").lower()
+    study_terms = ("quiz", "socrative", "exam", "question", "study", "test", "paper")
+    heavy_terms = ("board", "consumer", "distribution", "certificate", "install", "db ", "panel")
+
+    if any(term in lower for term in study_terms):
+        return "STUDY_IMAGE"
+    if any(term in lower for term in heavy_terms):
+        return "HEAVY_IMAGE"
+    return "UNKNOWN"
 
 def get_next_missing_field(session: dict):
     for field, question in REQUIRED_CIRCUIT_FIELDS:
@@ -89,6 +120,11 @@ def whatsapp_webhook():
     from_number = request.form.get("From", "")
     user_id = from_number or "unknown"
     now_ts = utc_now_ts()
+    word_cap = int(current_app.config.get("WORD_CAP", 200))
+    enable_pdf = current_app.config.get("ENABLE_PDF", True)
+    enable_heavy_ocr = current_app.config.get("ENABLE_HEAVY_OCR", True)
+    enable_rag = current_app.config.get("ENABLE_RAG", True)
+    num_media = int(request.form.get("NumMedia", "0"))
 
     # ---------------------------------------------------------------
     # Free trial / rate limit
@@ -104,6 +140,98 @@ def whatsapp_webhook():
     if not allowed:
         r = MessagingResponse()
         r.message(msg)
+        return str(r), 200
+
+    if word_cap and word_count(body) > word_cap:
+        r = MessagingResponse()
+        r.message(f"⚠️ Please keep messages under {word_cap} words.")
+        return str(r), 200
+
+    # ---------------------------------------------------------------
+    # Media handling (vision)
+    # ---------------------------------------------------------------
+    if num_media > 0:
+        if num_media > MAX_IMAGES_PER_MESSAGE:
+            r = MessagingResponse()
+            r.message(f"⚠️ Please send up to {MAX_IMAGES_PER_MESSAGE} images at a time.")
+            return str(r), 200
+
+        media_url = request.form.get("MediaUrl0")
+
+        if not media_url:
+            r = MessagingResponse()
+            r.message("⚠️ I didn't receive the image URL. Please resend the photo.")
+            return str(r), 200
+
+        intent = classify_image_intent(body)
+        if intent == "UNKNOWN":
+            r = MessagingResponse()
+            r.message("Is this a study screenshot or an installation/board photo?")
+            return str(r), 200
+
+        if night_mode_active() and intent == "HEAVY_IMAGE":
+            r = MessagingResponse()
+            r.message("🌙 Night mode (02:00–06:00 UK): heavy photo analysis is paused. Please send study questions instead.")
+            return str(r), 200
+
+        if intent == "HEAVY_IMAGE" and not enable_heavy_ocr:
+            r = MessagingResponse()
+            r.message("Feature temporarily unavailable.")
+            return str(r), 200
+
+        allowed_img, cap_msg = check_image_caps(
+            user_id=user_id,
+            now_ts=now_ts,
+            intent=intent,
+            images=num_media,
+        )
+        if not allowed_img:
+            r = MessagingResponse()
+            r.message(cap_msg)
+            return str(r), 200
+
+        prompt = body or "Read this photo and extract electrical details."
+        if intent == "STUDY_IMAGE":
+            prompt = "This is a study or quiz screenshot. Extract the key question and give the correct answer."
+        analysis = vision_answer(
+            image_url=media_url,
+            prompt=prompt,
+        )
+
+        append_message(user_id, "user", f"[image] {body}", now_ts)
+        append_message(user_id, "assistant", analysis, utc_now_ts())
+
+        r = MessagingResponse()
+        r.message(analysis)
+        return str(r), 200
+
+    # ---------------------------------------------------------------
+    # Serve a blank test sheet on demand
+    # ---------------------------------------------------------------
+    if any(
+        phrase in lower
+        for phrase in (
+            "blank test sheet",
+            "empty test sheet",
+            "empty result sheet",
+            "test sheet template",
+        )
+    ):
+        if not enable_pdf:
+            r = MessagingResponse()
+            r.message("Feature temporarily unavailable.")
+            return str(r), 200
+        if night_mode_active():
+            r = MessagingResponse()
+            r.message("🌙 Night mode (02:00–06:00 UK): PDF generation is paused. Please try again after 06:00 UK.")
+            return str(r), 200
+
+        pdf_path = create_empty_test_sheet_pdf()
+        filename = pdf_path.split("/")[-1]
+
+        r = MessagingResponse()
+        msg = r.message("📄 Here is a blank test sheet PDF.")
+        msg.media(f"{request.url_root}pdf/{filename}")
         return str(r), 200
 
     # ---------------------------------------------------------------
@@ -123,6 +251,15 @@ def whatsapp_webhook():
         field, _ = get_next_missing_field(session)
 
         if field:
+            if not enable_pdf:
+                r = MessagingResponse()
+                r.message("Feature temporarily unavailable.")
+                return str(r), 200
+            if night_mode_active():
+                r = MessagingResponse()
+                r.message("🌙 Night mode (02:00–06:00 UK): PDF generation is paused. Please try again after 06:00 UK.")
+                return str(r), 200
+
             if not validate_input(field, body):
                 r = MessagingResponse()
                 r.message("⚠️ Please enter a valid number.")
@@ -142,6 +279,15 @@ def whatsapp_webhook():
     # Start test sheet flow
     # ---------------------------------------------------------------
     if "generate test sheet" in lower or lower == "test sheet":
+        if not enable_pdf:
+            r = MessagingResponse()
+            r.message("Feature temporarily unavailable.")
+            return str(r), 200
+        if night_mode_active():
+            r = MessagingResponse()
+            r.message("🌙 Night mode (02:00–06:00 UK): PDF generation is paused. Please try again after 06:00 UK.")
+            return str(r), 200
+
         TEST_SHEET_SESSIONS[user_id] = {}
         _, question = get_next_missing_field(TEST_SHEET_SESSIONS[user_id])
         r = MessagingResponse()
@@ -156,6 +302,15 @@ def whatsapp_webhook():
         field, _ = get_next_missing_field(session)
 
         if not field:
+            if not enable_pdf:
+                r = MessagingResponse()
+                r.message("Feature temporarily unavailable.")
+                return str(r), 200
+            if night_mode_active():
+                r = MessagingResponse()
+                r.message("🌙 Night mode (02:00–06:00 UK): PDF generation is paused. Please try again after 06:00 UK.")
+                return str(r), 200
+
             payload = {
                 "circuit_details": [session],
                 "test_results": {}
@@ -172,26 +327,14 @@ def whatsapp_webhook():
             return str(r), 200
 
     # ---------------------------------------------------------------
-    # Media handling (disabled for MVP)
-    # ---------------------------------------------------------------
-    num_media = int(request.form.get("NumMedia", "0"))
-    if num_media > 0:
-        r = MessagingResponse()
-        r.message(
-            "📎 Media analysis is coming soon.\n\n"
-            "For now, you can generate test sheets or ask electrical questions."
-        )
-        return str(r), 200
-
-    # ---------------------------------------------------------------
     # Normal AI chat (RAG + GPT)
     # ---------------------------------------------------------------
     global _VS
-    if "_VS" not in globals() or _VS is None:
+    if enable_rag and ("_VS" not in globals() or _VS is None):
         _VS = build_or_load_vectorstore()
 
     history = fetch_history(user_id, limit=10)
-    ctx = retrieve_context(_VS, body, k=4)
+    ctx = retrieve_context(_VS, body, k=4) if enable_rag else ""
 
     if not history:
         reply = onboarding_message()

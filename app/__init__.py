@@ -24,6 +24,10 @@ def create_app():
         FREE_TRIAL_DAYS=int(os.getenv("FREE_TRIAL_DAYS", "14")),
         FREE_TRIAL_MESSAGE_CREDITS=int(os.getenv("FREE_TRIAL_MESSAGE_CREDITS", "50")),
         WORD_CAP=int(os.getenv("WORD_CAP", "200")),
+        ENABLE_PDF=env_bool("ENABLE_PDF", True),
+        ENABLE_HEAVY_OCR=env_bool("ENABLE_HEAVY_OCR", True),
+        ENABLE_NIGHT_MODE=env_bool("ENABLE_NIGHT_MODE", True),
+        ENABLE_RAG=env_bool("ENABLE_RAG", True),
 
         # OLD single subscribe URL (keep it if needed for website)
         SUBSCRIBE_URL=os.getenv("SUBSCRIBE_URL", "https://sitemind.ai/pay"),
