@@ -1,12 +1,24 @@
 # app/services/testing_service.py
 
 from datetime import date
+import uuid
+import shutil
+from pathlib import Path
 
 from app.pdf_templates.fill_template import (
     generate_test_sheet_pdf,
     get_empty_test_sheet_pdf,
 )
 from app.services.monitoring import log_event, user_hash
+
+PDF_BASE = Path(__file__).resolve().parent.parent / "pdf_templates"
+
+
+class PdfGenerationError(Exception):
+    """
+    Raised when a requested PDF cannot be generated or prepared.
+    """
+    pass
 
 
 def build_test_data(user_payload: dict) -> dict:
@@ -84,3 +96,28 @@ def create_empty_test_sheet_pdf() -> str:
     Return the blank test results PDF (no overlay applied).
     """
     return get_empty_test_sheet_pdf()
+
+
+def create_empty_pdf(pdf_type: str = "test_results") -> str:
+    """
+    Return a blank PDF path based on type: 'test_results' or 'circuit_details'.
+    """
+    if pdf_type == "circuit_details":
+        src = PDF_BASE / "circuit_details_template.pdf"
+        if not src.exists():
+            log_event("error", "Circuit details template missing", {"type": pdf_type, "src": str(src)})
+            raise PdfGenerationError("circuit_details_template_missing")
+        try:
+            target = PDF_BASE / f"circuit_details_{uuid.uuid4().hex}.pdf"
+            shutil.copyfile(src, target)
+            return str(target)
+        except Exception as e:
+            log_event("error", "Failed to prepare circuit details PDF", {"err": str(e), "type": pdf_type})
+            raise PdfGenerationError(str(e))
+
+    # default test results
+    try:
+        return create_empty_test_sheet_pdf()
+    except Exception as e:
+        log_event("error", "Failed to prepare test results PDF", {"err": str(e), "type": pdf_type})
+        raise PdfGenerationError(str(e))

@@ -2,7 +2,7 @@ import os
 import time
 import sqlite3
 from pathlib import Path
-from typing import Any, Sequence
+from typing import Any, Sequence, Optional
 
 try:
     import psycopg  # type: ignore
@@ -143,6 +143,8 @@ def ensure_schema() -> None:
             "study_images_today INTEGER NOT NULL DEFAULT 0",
             "heavy_images_today INTEGER NOT NULL DEFAULT 0",
             "image_count_date TEXT",
+            "pending_action TEXT",
+            "pending_action_ts BIGINT",
         ):
             _add_column(cur, "users", col_def)
 

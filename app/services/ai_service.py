@@ -1,5 +1,6 @@
 from __future__ import annotations
 from typing import Any
+import random
 from app.services.model_fallback import call_with_fallback
 from app.services import db_utils as db
 from app.services.monitoring import log_event, user_hash
@@ -9,6 +10,7 @@ import time
 import base64
 from pathlib import Path
 from typing import List, Tuple, Optional
+import random
 
 import requests
 from datetime import datetime, timezone
@@ -174,13 +176,14 @@ def env_bool(name: str, default: bool = False) -> bool:
 
 ENABLE_RAG = env_bool("ENABLE_RAG", True)
 CORE_DAILY_CAP = int(os.getenv("CORE_DAILY_CAP", "30"))
-CORE_HOURLY_CAP = int(os.getenv("CORE_HOURLY_CAP", "10"))
+CORE_HOURLY_CAP = int(os.getenv("CORE_HOURLY_CAP", "15"))
 PRO_DAILY_CAP = int(os.getenv("PRO_DAILY_CAP", "60"))
-PRO_HOURLY_CAP = int(os.getenv("PRO_HOURLY_CAP", "20"))
+PRO_HOURLY_CAP = int(os.getenv("PRO_HOURLY_CAP", "30"))
 CORE_STUDY_IMAGE_CAP = int(os.getenv("CORE_STUDY_IMAGE_CAP", "20"))
 CORE_HEAVY_IMAGE_CAP = int(os.getenv("CORE_HEAVY_IMAGE_CAP", "2"))
 PRO_STUDY_IMAGE_CAP = int(os.getenv("PRO_STUDY_IMAGE_CAP", "40"))
 PRO_HEAVY_IMAGE_CAP = int(os.getenv("PRO_HEAVY_IMAGE_CAP", "25"))
+TRIAL_EXPIRED_MSG = "Your 14-day trial has ended. Upgrade to SiteMind Pro to continue."
 
 
 def utc_now_ts() -> int:
@@ -258,7 +261,7 @@ def inc_usage(user_id: str, inc: int = 1) -> None:
 def get_usage(user_id: str) -> Optional[dict]:
     try:
         row = db.fetchone(
-            "SELECT trial_start_ts, trial_end_ts, messages_used FROM users WHERE user_id=?",
+            "SELECT trial_start_ts, trial_end_ts, messages_used, is_subscribed FROM users WHERE user_id=?",
             (user_id,),
         )
     except Exception as e:
@@ -271,7 +274,63 @@ def get_usage(user_id: str) -> Optional[dict]:
         "trial_start_ts": row[0] if not isinstance(row, dict) else row.get("trial_start_ts"),
         "trial_end_ts": row[1] if not isinstance(row, dict) else row.get("trial_end_ts"),
         "messages_used": row[2] if not isinstance(row, dict) else row.get("messages_used"),
+        "is_subscribed": bool(row[3]) if not isinstance(row, dict) else bool(row.get("is_subscribed")),
     }
+
+
+def get_trial_info(user_id: str, now_ts: int, free_days: int) -> Optional[dict]:
+    ensure_user(user_id, now_ts, free_days)
+    try:
+        row = db.fetchone(
+            "SELECT trial_start_ts, trial_end_ts, is_subscribed FROM users WHERE user_id=?",
+            (user_id,),
+        )
+    except Exception as e:
+        log_event("error", "DB trial info lookup failed", {"err": str(e), "user": user_hash(user_id)})
+        row = None
+
+    if not row:
+        return None
+
+    start_ts, end_ts = _normalize_trial(user_id, row, now_ts, free_days)
+    subscribed = bool(row["is_subscribed"] if isinstance(row, dict) else row[2])
+    expired = (not subscribed) and now_ts > end_ts
+    days_left = int((end_ts - now_ts + 86399) // 86400)
+    days_left = max(0, min(days_left, free_days))
+
+    return {
+        "is_subscribed": subscribed,
+        "expired": expired,
+        "days_left": days_left,
+        "trial_end_ts": end_ts,
+        "trial_start_ts": start_ts,
+    }
+
+
+def check_trial_gate(user_id: str, now_ts: int, free_days: int) -> Tuple[bool, str]:
+    ensure_user(user_id, now_ts, free_days)
+    try:
+        row = db.fetchone(
+            "SELECT trial_start_ts, trial_end_ts, is_subscribed FROM users WHERE user_id=?",
+            (user_id,),
+        )
+    except Exception as e:
+        log_event("error", "DB trial gate lookup failed", {"err": str(e), "user": user_hash(user_id)})
+        return False, OFFLINE_MSG
+
+    if not row:
+        return False, OFFLINE_MSG
+
+    start, end = _normalize_trial(user_id, row, now_ts, free_days)
+    is_subscribed = bool(row["is_subscribed"] if isinstance(row, dict) else row[2])
+
+    if is_subscribed:
+        return True, ""
+
+    if now_ts > end:
+        return False, TRIAL_EXPIRED_MSG
+
+    return True, ""
 
 
 def _row_val(row: Any, key: str, idx: int):
@@ -283,6 +342,32 @@ def _row_val(row: Any, key: str, idx: int):
 def _plan_from_row(u: Any) -> str:
     is_subscribed = bool(_row_val(u, "is_subscribed", 7))
     return "pro" if is_subscribed else "core"
+
+
+def _normalize_trial(user_id: str, u: Any, now_ts: int, free_days: int) -> Tuple[int, int]:
+    start = _row_val(u, "trial_start_ts", 2) or now_ts
+    end = _row_val(u, "trial_end_ts", 3) or (start + free_days * 86400)
+    target_end = start + free_days * 86400
+    changed = False
+
+    if start > now_ts:
+        start = now_ts
+        changed = True
+
+    if end < start or end > target_end:
+        end = target_end
+        changed = True
+
+    if changed:
+        try:
+            db.execute(
+                "UPDATE users SET trial_start_ts=?, trial_end_ts=? WHERE user_id=?",
+                (start, end, user_id),
+            )
+        except Exception as e:
+            log_event("error", "DB trial normalize failed", {"err": str(e), "user": user_hash(user_id)})
+
+    return start, end
 
 
 def count_messages_in_window(user_id: str, start_ts: int) -> int:
@@ -337,11 +422,13 @@ def check_and_count_daily(
     if not u:
         return False, OFFLINE_MSG
 
+    start_ts, end_ts = _normalize_trial(user_id, u, now_ts, free_days)
+
     plan = _plan_from_row(u)
     is_trial = bool(_row_val(u, "is_trial", 8))
 
     # Trial expiry for unpaid users
-    if (now_ts > _row_val(u, "trial_end_ts", 3)) and plan != "pro":
+    if (now_ts > end_ts) and plan != "pro":
         return False, (
             "Your SiteMind AI free trial has ended.\n\n"
             "Activate your subscription to continue:\n"
@@ -362,17 +449,30 @@ def check_and_count_daily(
 
     daily_cap = PRO_DAILY_CAP if plan == "pro" else CORE_DAILY_CAP
     hourly_cap = PRO_HOURLY_CAP if plan == "pro" else CORE_HOURLY_CAP
+    spam_count = count_messages_in_window(user_id, now_ts - 60)
+    if spam_count >= 5:
+        cooldown = random.randint(60, 120)
+        return False, f"⏱️ Too many messages in a minute. Please wait {cooldown} seconds."
 
     hourly_count = count_messages_in_window(user_id, now_ts - 3600)
     messages_today = _row_val(u, "messages_today", 5) or 0
     messages_used = _row_val(u, "messages_used", 4) or 0
 
     if hourly_count >= hourly_cap:
-        return False, f"⏱️ You’ve hit the hourly limit ({hourly_cap} msgs). Try again in a bit."
+        if plan == "pro":
+            return False, f"⏱️ You’ve hit the hourly limit ({hourly_cap} msgs). Please try again shortly."
+        return False, (
+            f"⏱️ You’ve hit the hourly limit ({hourly_cap} msgs). "
+            f"Upgrade to Pro to remove this cap: {subscribe_url}"
+        )
 
     if messages_today >= daily_cap:
-        upsell = "Upgrade to Pro for higher limits." if plan != "pro" else "Please try again tomorrow."
-        return False, f"📈 You’ve reached today’s limit ({daily_cap} messages). {upsell}"
+        if plan == "pro":
+            return False, f"📈 You’ve reached today’s limit ({daily_cap} messages). Please try again tomorrow."
+        return False, (
+            f"📈 You’ve reached today’s limit ({daily_cap} messages). "
+            f"Upgrade to Pro to lift limits: {subscribe_url}"
+        )
 
     if total_cap is not None and plan != "pro" and is_trial and messages_used >= total_cap:
         return False, f"💬 You’ve used all {total_cap} trial messages. Subscribe → {subscribe_url}"

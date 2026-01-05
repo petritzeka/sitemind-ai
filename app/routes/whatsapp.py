@@ -13,6 +13,8 @@ from app.services.ai_service import (
     fetch_history,
     check_and_count,
     check_image_caps,
+    check_trial_gate,
+    get_trial_info,
     retrieve_context,
     chat_reply,
     build_or_load_vectorstore,
@@ -21,8 +23,10 @@ from app.services.ai_service import (
 
 from app.services.testing_service import (
     create_empty_test_sheet_pdf,
+    create_empty_pdf,
     create_test_sheet_pdf,
 )
+from app.services import db_utils as db
 
 bp = Blueprint("whatsapp", __name__)
 WHATSAPP_WEBHOOK_PATH = os.getenv("WHATSAPP_WEBHOOK_PATH", "/whatsapp")
@@ -31,6 +35,7 @@ WHATSAPP_WEBHOOK_PATH = os.getenv("WHATSAPP_WEBHOOK_PATH", "/whatsapp")
 # In-memory test sheet sessions (MVP only – no DB)
 # -------------------------------------------------------------------
 TEST_SHEET_SESSIONS = {}
+PENDING_IMAGE_TASKS = {}
 
 REQUIRED_CIRCUIT_FIELDS = [
     ("circuit_number", "What is the circuit number? (e.g. 1, 2)"),
@@ -68,11 +73,149 @@ def classify_image_intent(text: str) -> str:
         return "HEAVY_IMAGE"
     return "UNKNOWN"
 
+
+def map_intent_response(text: str) -> str:
+    lower = (text or "").lower()
+    if any(k in lower for k in ("study", "quiz", "socrative", "exam")):
+        return "STUDY_IMAGE"
+    if any(k in lower for k in ("board", "install", "installation", "certificate", "panel")):
+        return "HEAVY_IMAGE"
+    return "UNKNOWN"
+
+
+def is_trial_query(text: str) -> bool:
+    lower = (text or "").lower()
+    terms = (
+        "trial",
+        "free access",
+        "subscription",
+        "subscribe",
+        "upgrade",
+        "pro",
+        "payment",
+        "pricing",
+    )
+    return any(t in lower for t in terms)
+
+
+def map_pdf_choice(text: str) -> str:
+    lower = (text or "").strip().lower()
+    if lower in {"1", "test results", "results", "results sheet", "test results sheet"}:
+        return "1"
+    if lower in {"2", "circuit details", "details", "circuit details sheet"}:
+        return "2"
+    return ""
+
+
+def detect_pdf_intent(text: str) -> bool:
+    lower = (text or "").lower()
+    tutor_terms = (
+        "explain",
+        "how",
+        "fill in",
+        "fill out",
+        "guide me",
+        "what goes on",
+        "what is on",
+    )
+    if any(t in lower for t in tutor_terms):
+        return False
+
+    sheet_terms = (
+        "test sheet",
+        "test results sheet",
+        "results sheet",
+        "circuit details sheet",
+        "circuit details",
+        "schedule of test results",
+        "results schedule",
+    )
+    has_sheet = any(term in lower for term in sheet_terms)
+
+    verb_terms = (
+        "generate",
+        "make",
+        "send",
+        "create",
+        "produce",
+        "provide",
+        "give me",
+        "need",
+        "want",
+    )
+    has_verb = any(term in lower for term in verb_terms)
+
+    has_pdf = "pdf" in lower
+
+    return has_sheet and (has_pdf or has_verb)
+
+
+def set_pending_action(user_id: str, action: str, expires_ts: int) -> None:
+    try:
+        db.execute(
+            "UPDATE users SET pending_action=?, pending_action_ts=? WHERE user_id=?",
+            (action, expires_ts, user_id),
+        )
+    except Exception:
+        pass
+
+
+def get_pending_action(user_id: str, now_ts: int) -> str:
+    try:
+        row = db.fetchone("SELECT pending_action, pending_action_ts FROM users WHERE user_id=?", (user_id,))
+    except Exception:
+        return ""
+
+    if not row:
+        return ""
+
+    action = row["pending_action"] if isinstance(row, dict) else row[0]
+    exp_ts = row["pending_action_ts"] if isinstance(row, dict) else (row[1] if len(row) > 1 else None)
+
+    if not action:
+        return ""
+
+    try:
+        if exp_ts and int(exp_ts) < now_ts:
+            db.execute("UPDATE users SET pending_action=NULL, pending_action_ts=NULL WHERE user_id=?", (user_id,))
+            return ""
+    except Exception:
+        return action
+
+    return action
+
+
+def clear_pending_action(user_id: str) -> None:
+    try:
+        db.execute("UPDATE users SET pending_action=NULL, pending_action_ts=NULL WHERE user_id=?", (user_id,))
+    except Exception:
+        pass
+
 def get_next_missing_field(session: dict):
     for field, question in REQUIRED_CIRCUIT_FIELDS:
         if not session.get(field):
             return field, question
     return None, None
+
+
+def build_paywall_message(action_type: str, reason: str, pay_url: str) -> str:
+    lower = (reason or "").lower()
+    if action_type == "pdf":
+        if "trial" in lower and "ended" in lower:
+            return (
+                "Test sheet generation is a Pro feature.\n"
+                "Your free trial has ended, so I can’t generate a test sheet right now.\n"
+                f"Activate your subscription to continue: {pay_url}"
+            )
+        if "limit" in lower or "cap" in lower:
+            return (
+                "You’ve reached the current PDF limit.\n"
+                f"Try again tomorrow or upgrade to Pro: {pay_url}"
+            )
+    return (
+        "This action needs a subscription.\n"
+        f"Activate to continue: {pay_url}"
+    )
 
 
 def validate_input(field: str, value: str) -> bool:
@@ -125,26 +268,154 @@ def whatsapp_webhook():
     enable_heavy_ocr = current_app.config.get("ENABLE_HEAVY_OCR", True)
     enable_rag = current_app.config.get("ENABLE_RAG", True)
     num_media = int(request.form.get("NumMedia", "0"))
+    pdf_intent = detect_pdf_intent(lower)
+    pending_action = get_pending_action(user_id, now_ts)
 
-    # ---------------------------------------------------------------
-    # Free trial / rate limit
-    # ---------------------------------------------------------------
-    allowed, msg = check_and_count(
+    # Guard stray 1/2 replies when no pending action
+    if pending_action == "" and lower in {"1", "2"} and num_media == 0:
+        r = MessagingResponse()
+        r.message("Reply 1 or 2 only after I ask. If you need a test sheet PDF, type 'send test sheet'.")
+        return str(r), 200
+
+    trial_ok, trial_msg = check_trial_gate(
         user_id=user_id,
         now_ts=now_ts,
         free_days=int(current_app.config["FREE_TRIAL_DAYS"]),
-        msg_cap=int(current_app.config.get("FREE_TRIAL_MESSAGE_CREDITS", 50)),
-        subscribe_url=current_app.config["SUBSCRIBE_URL"],
     )
-
-    if not allowed:
+    if not trial_ok:
         r = MessagingResponse()
-        r.message(msg)
+        if pdf_intent:
+            paywall = build_paywall_message("pdf", trial_msg, current_app.config["SUBSCRIBE_URL"])
+            r.message(paywall)
+        else:
+            r.message(trial_msg)
         return str(r), 200
 
     if word_cap and word_count(body) > word_cap:
         r = MessagingResponse()
         r.message(f"⚠️ Please keep messages under {word_cap} words.")
+        return str(r), 200
+
+    # ---------------------------------------------------------------
+    # Pending PDF type selection (no quota impact)
+    # ---------------------------------------------------------------
+    if pending_action == "pdf_choice" and num_media == 0:
+        choice = map_pdf_choice(body)
+        r = MessagingResponse()
+        if choice not in {"1", "2"}:
+            r.message("Please reply with 1 (Test Results Sheet) or 2 (Circuit Details Sheet).")
+            return str(r), 200
+
+        if night_mode_active():
+            clear_pending_action(user_id)
+            r.message("🌙 Night mode (02:00–06:00 UK): PDF generation is paused. Please ask again after 06:00 UK.")
+            return str(r), 200
+
+        pdf_type = "test_results" if choice == "1" else "circuit_details"
+        try:
+            pdf_path = create_empty_pdf(pdf_type)
+            if not pdf_path:
+                raise Exception("empty pdf path")
+        except Exception:
+            r.message("I’m having trouble generating that PDF right now — please try again shortly.")
+            return str(r), 200
+
+        filename = pdf_path.split("/")[-1]
+        label = "Test Results Sheet" if choice == "1" else "Circuit Details Sheet"
+        msg = r.message(f"📄 Here is your {label}.")
+        msg.media(f"{request.url_root}pdf/{filename}")
+        clear_pending_action(user_id)
+        return str(r), 200
+
+    if is_trial_query(body):
+        info = get_trial_info(
+            user_id=user_id,
+            now_ts=now_ts,
+            free_days=int(current_app.config["FREE_TRIAL_DAYS"]),
+        )
+        r = MessagingResponse()
+        if not info:
+            r.message("Sorry — I’m temporarily offline. Please try again in a moment.")
+            return str(r), 200
+        if info["is_subscribed"]:
+            r.message("You’re on SiteMind Pro. Your subscription keeps all features unlocked.")
+            return str(r), 200
+        if info["expired"]:
+            r.message("Your 14-day trial has ended. Upgrade to SiteMind Pro to continue.")
+            return str(r), 200
+        days_left = info.get("days_left", 0)
+        r.message(
+            f"You’re on the 14-day free trial with full Pro features. "
+            f"Days remaining: {days_left}. Upgrade anytime to keep access: {current_app.config['SUBSCRIBE_URL']}"
+        )
+        return str(r), 200
+
+    # ---------------------------------------------------------------
+    # Direct PDF intent ("test sheet" + "pdf") — ask for type first
+    # ---------------------------------------------------------------
+    if detect_pdf_intent(lower):
+        r = MessagingResponse()
+        if not enable_pdf:
+            r.message("Feature temporarily unavailable.")
+            return str(r), 200
+        if night_mode_active():
+            r.message("🌙 Night mode (02:00–06:00 UK): PDF generation is paused. Please try again after 06:00 UK.")
+            return str(r), 200
+
+        set_pending_action(user_id, "pdf_choice", now_ts + 300)
+        r.message("Which PDF do you need?\n1) Test Results Sheet\n2) Circuit Details Sheet\nReply with 1 or 2.")
+        return str(r), 200
+
+    # ---------------------------------------------------------------
+    # Resume pending image intent
+    # ---------------------------------------------------------------
+    if user_id in PENDING_IMAGE_TASKS and num_media == 0:
+        pending = PENDING_IMAGE_TASKS.get(user_id, {})
+        intent = map_intent_response(lower)
+        if intent == "UNKNOWN":
+            r = MessagingResponse()
+            r.message("Please reply 'study screenshot' or 'installation/board photo' so I can process your image.")
+            return str(r), 200
+
+        media_url = pending.get("media_url")
+        prompt = pending.get("prompt") or "Read this photo and extract electrical details."
+        images = pending.get("num_media", 1)
+        PENDING_IMAGE_TASKS.pop(user_id, None)
+
+        if intent == "HEAVY_IMAGE" and night_mode_active():
+            r = MessagingResponse()
+            r.message("🌙 Night mode (02:00–06:00 UK): heavy photo analysis is paused. Please send study questions instead.")
+            return str(r), 200
+
+        if intent == "HEAVY_IMAGE" and not enable_heavy_ocr:
+            r = MessagingResponse()
+            r.message("Feature temporarily unavailable.")
+            return str(r), 200
+
+        allowed_img, cap_msg = check_image_caps(
+            user_id=user_id,
+            now_ts=now_ts,
+            intent=intent,
+            images=images,
+        )
+        if not allowed_img:
+            r = MessagingResponse()
+            r.message(cap_msg)
+            return str(r), 200
+
+        if intent == "STUDY_IMAGE":
+            prompt = "This is a study or quiz screenshot. Extract the key question and give the correct answer."
+
+        analysis = vision_answer(
+            image_url=media_url,
+            prompt=prompt,
+        )
+
+        append_message(user_id, "user", f"[image-followup] {body}", now_ts)
+        append_message(user_id, "assistant", analysis, utc_now_ts())
+
+        r = MessagingResponse()
+        r.message(analysis)
         return str(r), 200
 
     # ---------------------------------------------------------------
@@ -165,6 +436,11 @@ def whatsapp_webhook():
 
         intent = classify_image_intent(body)
         if intent == "UNKNOWN":
+            PENDING_IMAGE_TASKS[user_id] = {
+                "media_url": media_url,
+                "prompt": body,
+                "num_media": num_media,
+            }
             r = MessagingResponse()
             r.message("Is this a study screenshot or an installation/board photo?")
             return str(r), 200
@@ -188,6 +464,18 @@ def whatsapp_webhook():
         if not allowed_img:
             r = MessagingResponse()
             r.message(cap_msg)
+            return str(r), 200
+
+        allowed, msg = check_and_count(
+            user_id=user_id,
+            now_ts=now_ts,
+            free_days=int(current_app.config["FREE_TRIAL_DAYS"]),
+            msg_cap=int(current_app.config.get("FREE_TRIAL_MESSAGE_CREDITS", 50)),
+            subscribe_url=current_app.config["SUBSCRIBE_URL"],
+        )
+        if not allowed:
+            r = MessagingResponse()
+            r.message(build_paywall_message("pdf", msg, current_app.config["SUBSCRIBE_URL"]))
             return str(r), 200
 
         prompt = body or "Read this photo and extract electrical details."
@@ -226,6 +514,18 @@ def whatsapp_webhook():
             r.message("🌙 Night mode (02:00–06:00 UK): PDF generation is paused. Please try again after 06:00 UK.")
             return str(r), 200
 
+        allowed, msg = check_and_count(
+            user_id=user_id,
+            now_ts=now_ts,
+            free_days=int(current_app.config["FREE_TRIAL_DAYS"]),
+            msg_cap=int(current_app.config.get("FREE_TRIAL_MESSAGE_CREDITS", 50)),
+            subscribe_url=current_app.config["SUBSCRIBE_URL"],
+        )
+        if not allowed:
+            r = MessagingResponse()
+            r.message(build_paywall_message("pdf", msg, current_app.config["SUBSCRIBE_URL"]))
+            return str(r), 200
+
         pdf_path = create_empty_test_sheet_pdf()
         filename = pdf_path.split("/")[-1]
 
@@ -260,6 +560,18 @@ def whatsapp_webhook():
                 r.message("🌙 Night mode (02:00–06:00 UK): PDF generation is paused. Please try again after 06:00 UK.")
                 return str(r), 200
 
+            allowed, msg = check_and_count(
+                user_id=user_id,
+                now_ts=now_ts,
+                free_days=int(current_app.config["FREE_TRIAL_DAYS"]),
+                msg_cap=int(current_app.config.get("FREE_TRIAL_MESSAGE_CREDITS", 50)),
+                subscribe_url=current_app.config["SUBSCRIBE_URL"],
+        )
+        if not allowed:
+            r = MessagingResponse()
+            r.message(build_paywall_message("pdf", msg, current_app.config["SUBSCRIBE_URL"]))
+            return str(r), 200
+
             if not validate_input(field, body):
                 r = MessagingResponse()
                 r.message("⚠️ Please enter a valid number.")
@@ -288,6 +600,18 @@ def whatsapp_webhook():
             r.message("🌙 Night mode (02:00–06:00 UK): PDF generation is paused. Please try again after 06:00 UK.")
             return str(r), 200
 
+        allowed, msg = check_and_count(
+            user_id=user_id,
+            now_ts=now_ts,
+            free_days=int(current_app.config["FREE_TRIAL_DAYS"]),
+            msg_cap=int(current_app.config.get("FREE_TRIAL_MESSAGE_CREDITS", 50)),
+            subscribe_url=current_app.config["SUBSCRIBE_URL"],
+        )
+        if not allowed:
+            r = MessagingResponse()
+            r.message(build_paywall_message("pdf", msg, current_app.config["SUBSCRIBE_URL"]))
+            return str(r), 200
+
         TEST_SHEET_SESSIONS[user_id] = {}
         _, question = get_next_missing_field(TEST_SHEET_SESSIONS[user_id])
         r = MessagingResponse()
@@ -310,6 +634,18 @@ def whatsapp_webhook():
                 r = MessagingResponse()
                 r.message("🌙 Night mode (02:00–06:00 UK): PDF generation is paused. Please try again after 06:00 UK.")
                 return str(r), 200
+
+        allowed, msg = check_and_count(
+            user_id=user_id,
+            now_ts=now_ts,
+            free_days=int(current_app.config["FREE_TRIAL_DAYS"]),
+            msg_cap=int(current_app.config.get("FREE_TRIAL_MESSAGE_CREDITS", 50)),
+            subscribe_url=current_app.config["SUBSCRIBE_URL"],
+        )
+        if not allowed:
+            r = MessagingResponse()
+            r.message(build_paywall_message("pdf", msg, current_app.config["SUBSCRIBE_URL"]))
+            return str(r), 200
 
             payload = {
                 "circuit_details": [session],
